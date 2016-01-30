@@ -1,23 +1,29 @@
 require.config({
     baseUrl: 'scripts',
     paths: {
-        //'jquery'         : 'scripts/lib/jquery-2.1.1.min',
-        'jquery'         : 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min',
-        'domReady'       : 'libs/domReady',
-        'phaser'         : 'libs/phaser.min',
-        'settings'       : 'settings',
+        //'jquery'          : 'scripts/lib/jquery-2.1.1.min',
+        'jquery'            : 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min',
+        'domReady'          : 'libs/domReady',
+        'phaser'            : 'libs/phaser.min',
+        'settings'          : 'settings',
+        'Game'              : 'game',
         'creeps'         : 'creeps',
-        'game'           : 'game'
+
+        // libs
+        'lodash'            : 'libs/lodash.min',
+
+        'debug'             : 'libs/debug',
+        'KeysManager'       : 'inputs/KeysManager'
     },
     config: {
 
     },
-    deps: ['jquery', 'phaser', 'settings', 'domReady'],
+    deps: ['jquery', 'phaser', 'lodash', 'settings', 'domReady', 'debug', 'KeysManager', 'creeps'],
     callback: function(domReady) {
-        require(['game'], function(game) {
+        require(['game'], function(Game) {
             domReady(function() {
                 console.info("DOM READY");
-                game();
+                var game = new Game();
             });
         })
     }

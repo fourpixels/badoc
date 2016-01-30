@@ -21,7 +21,10 @@ require.config({
         // hero
         'Cow'               : 'heroes/Cow',
         'Mouse'             : 'heroes/Mouse',
-        'BaseHero'          : 'heroes/BaseHero'
+        'BaseHero'          : 'heroes/BaseHero',
+
+        // ui
+        'UIManager'         : 'ui/UIManager'
     },
     config: {
 
@@ -29,7 +32,10 @@ require.config({
     deps: ['jquery', 'Phaser', 'lodash', 'settings', 'domReady', 'debug', 'KeyMap', 'KeysManager', 'HeroInputs',
         // heroes
         'Cow', 'Mouse', 'BaseHero',
-        'creeps'
+        'creeps',
+
+        // ui
+        'UIManager'
     ],
     callback: function(domReady) {
         require(['game'], function(Game) {

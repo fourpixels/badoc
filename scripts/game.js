@@ -10,6 +10,7 @@ define(function(require, exports, module) {
     var Mouse = require('Mouse');
     var HeroInputs = require('HeroInputs');
     var KeyMap = require('KeyMap');
+    var UIManager = require('UIManager');
 
     var Game = function Game() {
         var width = window.innerWidth
@@ -32,11 +33,12 @@ define(function(require, exports, module) {
 
         var cow;
         var mouse;
+        var ui;
 
         var cursors;
 
         var fpsText;
-        var inputsText;
+        //var inputsText;
 
         function create() {
             game.time.advancedTiming = true;
@@ -47,11 +49,15 @@ define(function(require, exports, module) {
             cow = new Cow(game, new HeroInputs(game, KeyMap.cow));
             mouse = new Mouse(game, new HeroInputs(game, KeyMap.mouse));
 
-            mouse.on('input:a', function() {
+            cow.on('action:b', function() {
+                debug('>> COW:B');
+            });
+
+            mouse.on('action:a', function() {
                 cow.switchColor();
             });
 
-            mouse.on('input:b', function() {
+            mouse.on('action:b', function() {
                 debug('switch mouse & cow!');
                 var mousePos = { x: mouse.sprite.x, y: mouse.sprite.y };
                 var cowPos = { x: cow.sprite.x, y: cow.sprite.y };
@@ -72,6 +78,10 @@ define(function(require, exports, module) {
                 cow.setInputs(mouseInputs);
             });
 
+
+            game.cow = cow;
+            game.mouse = mouse;
+
             //var cow2 = game.add.sprite(Settings.COW.startX, Settings.COW.startY, 'hero-test');
             //cow2.animations.add('swim', Phaser.Animation.generateFrameNames('Cow Standing instance', 0, 32, '', 4), 30, true);
             //cow2.animations.play('swim');
@@ -87,7 +97,10 @@ define(function(require, exports, module) {
                 fill: '#abc'
             });
 
-            inputsText = game.add.text(1, 36);
+
+            ui = new UIManager(game);
+
+            //inputsText = game.add.text(1, 36);
         }
 
         function preload() {
@@ -96,6 +109,9 @@ define(function(require, exports, module) {
 
             game.load.spritesheet('creepRed', 'assets/dummy_creep_red.png', 34, 34);
             game.load.spritesheet('creepYellow', 'assets/dummy_creep_yellow.png', 34, 34);
+
+            game.load.image('stamina-bar-bgr', 'assets/stamina-bar-bgr.png');
+            game.load.image('stamina-bar-over', 'assets/stamina-bar-over.png');
 
             //game.load.spritesheet('hero-cow', 'assets/dummy_creep_red.png', 34, 34);
             //game.load.spritesheet('hero-mouse', 'assets/dummy_creep_yellow.png', 34, 34);
@@ -151,7 +167,7 @@ define(function(require, exports, module) {
             //});
             //
             //game.debug.body(cow);
-            inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
+            //inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
         }
 
         function render() {

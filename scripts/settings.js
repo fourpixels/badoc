@@ -18,7 +18,19 @@
             height: 138,
             startX: 350,
             startY: 250,
-            velocity: 150
+            velocity: 150,
+            maxStamina: 100,
+            framesToIncreaseStamina: 4,
+            actionBStamina: 50,
+            actionAThrottle: 500,
+            actionBThrottle: 1000
+        },
+        MOUSE: {
+            maxStamina: 100,
+            framesToIncreaseStamina: 4,
+            actionBStamina: 50,
+            actionAThrottle: 500,
+            actionBThrottle: 5000
         }
     };
 });

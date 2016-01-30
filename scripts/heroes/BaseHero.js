@@ -5,7 +5,7 @@ define(function(require, exports, module) {
     var EventEmitter = require('EventEmitter');
 
     var debug = require('debug')('jar:heroes:base');
-    var Settings = require('Settings');
+    var Settings = require('settings');
 
     function BaseHero(game, type, inputs) {
         EventEmitter.call(this);

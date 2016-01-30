@@ -21,15 +21,17 @@
             velocity: 150,
             maxStamina: 100,
             framesToIncreaseStamina: 4,
+            actionAStamina: 10,
             actionBStamina: 50,
-            actionAThrottle: 500,
+            actionAThrottle: 250,
             actionBThrottle: 1000
         },
         MOUSE: {
             maxStamina: 100,
             framesToIncreaseStamina: 4,
-            actionBStamina: 50,
-            actionAThrottle: 500,
+            actionAStamina: 50,
+            actionBStamina: 90,
+            actionAThrottle: 1000,
             actionBThrottle: 5000
         }
     };

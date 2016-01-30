@@ -128,6 +128,10 @@ define(function(require, exports, module) {
 
         this.inputA = function inputA() {
             debug('> hero [%s] input - a', type, this);
+            if (this.hasEnoughStaminaForA()) {
+                this.stamina -= this.heroSettings.actionAStamina;
+                this.executeA();
+            }
 
         };
         this.inputB = function inputB() {
@@ -144,6 +148,10 @@ define(function(require, exports, module) {
 
         this.executeB = function executeB() {
             _this.emit('action:b');
+        };
+
+        this.hasEnoughStaminaForA = function hasEnoughStaminaForA() {
+            return this.stamina >= this.heroSettings.actionAStamina;
         };
 
         this.hasEnoughStaminaForB = function hasEnoughStaminaForB() {

@@ -1,6 +1,7 @@
 require.config({
     baseUrl: 'scripts',
     paths: {
+        'lodash'         : 'libs/lodash.min',
         'phaser'         : 'libs/phaser.min',
         'easystar'       : 'libs/easystar',
         'seek'           : 'seek',

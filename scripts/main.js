@@ -16,6 +16,7 @@ require.config({
         'EventEmitter'      : 'libs/EventEmitter',
         'seek'              : 'seek',
         'map'               : 'map',
+        'defaultMap'        : 'defaultMap',
 
         'debug'             : 'libs/debug',
         'KeysManager'       : 'inputs/KeysManager',

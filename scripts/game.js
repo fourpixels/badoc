@@ -4,6 +4,7 @@ define(function(require, exports, module) {
     var debug = require('debug')('jar:game');
     var Settings = require('settings');
     var Creeps = require('creeps');
+    var map = require('defaultMap')();
     var KeysManager = require('KeysManager');
 
     var Cow = require('Cow');
@@ -32,6 +33,7 @@ define(function(require, exports, module) {
             render: render
         });
 
+
         var cow;
         var mouse;
         var ui;
@@ -42,9 +44,12 @@ define(function(require, exports, module) {
         var fpsText;
         var renderable;
         //var inputsText;
+        var obstacleGroup;
 
         function create() {
+            obstacleGroup = map.buildGroupsFor(game);
             renderable = game.add.group();
+
 
             game.time.advancedTiming = true;
             game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -115,6 +120,7 @@ define(function(require, exports, module) {
         }
 
         function preload() {
+            map.loadFrom(game);
             game.load.spritesheet('hero-cow', 'assets/cow.png', Settings.COW.width, Settings.COW.height);
             game.load.spritesheet('hero-mouse', 'assets/mouse.png', 100, 138);
             game.load.spritesheet('creep', 'assets/creep.png', 126, 150);

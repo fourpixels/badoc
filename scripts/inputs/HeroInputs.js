@@ -19,6 +19,7 @@ define(function(require, exports, module) {
 
         function dispatch(action) {
             return function() {
+                console.log('dispatch -> input:%s', action);
                 _this.emit('input:' + action);
             }
         }

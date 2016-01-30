@@ -2,11 +2,13 @@
  * Created by morifey on 30-Jan-16.
  */
 define(function(require, exports, module) {
+    var EventEmitter = require('EventEmitter');
 
     var debug = require('debug')('jar:heroes:base');
     var Settings = require('Settings');
 
     function BaseHero(game, type, inputs) {
+        EventEmitter.call(this);
         var _this = this;
 
         this.game = game;
@@ -14,8 +16,7 @@ define(function(require, exports, module) {
 
         this.sprite = game.add.sprite(Math.round(Math.random() * 500), Math.round(Math.random() * 500), 'hero-' + type);
         game.physics.arcade.enable(this.sprite);
-        this.sprite.anchor.setTo(.5, .5);
-        this.sprite.animations.add('move', [0,1,2,3,4,5,6,7,8], 12, true);
+
         /*this.sprite.animations.add('down', [0, 1, 2], 10, true);
         this.sprite.animations.add('left', [3, 4, 5], 10, true);
         this.sprite.animations.add('right', [6, 7, 8], 10, true);
@@ -23,6 +24,29 @@ define(function(require, exports, module) {
 
         this.moving = false;
         this.lookingDir = 1; // TODO: set default?
+
+
+        this.init = function() {
+            this.initSprite();
+            this.initAnimations();
+
+            this.inputAThrottle = _.throttle(this.inputA, 1000, { leading: true, trailing: false });
+            this.inputBThrottle = _.throttle(this.inputB, 1000, { leading: true, trailing: false });
+
+            this.setInputs(inputs);
+        };
+
+        this.initSprite = function initSprite() {
+            this.sprite.anchor.setTo(.5, .5);
+        };
+
+        this.initAnimations = function initAnimations() {
+            console.log('base init animations');
+            this.sprite.animations.add('idle', [0], 12, false);
+            this.sprite.animations.add('move', [1,2,3,4,5,6,7,8], 12, true);
+        };
+
+
 
         var _update = this.sprite.update;
         this.sprite.update = function() {
@@ -59,32 +83,47 @@ define(function(require, exports, module) {
 
             if (moving != _this.moving) {
                 if (!moving) {
-                    _this.sprite.animations.stop(null, true);
+                    _this.stop();
                 } else {
-                    _this.sprite.animations.play('move');
+                    _this.walk();
                 }
 
                 _this.moving = moving;
             }
         };
 
-        _this.inputLeft = inputLeft;
-        _this.inputRight = inputRight;
-        _this.inputUp = inputUp;
-        _this.inputDown = inputDown;
-        _this.inputA = inputA;
-        _this.inputB = inputB;
+        this.gotoAndPlay = function gotoAndPlay(label) {
+            _this.sprite.animations.play(label);
+        };
 
-        setInputs(inputs);
+        this.walk = function walk() {
+            console.log('base walk');
+            _this.gotoAndPlay('move');
+        };
 
-        function setInputs(controller) {
-            listenInputs(_this.inputs, false);
+        this.stop = function stop() {
+            _this.sprite.animations.play('idle');
+            //_this.sprite.animations.stop(null, true);
+        };
+
+
+        this.inputA = function inputA() {
+            debug('> hero [%s] input - a', type);
+            _this.emit('input:a');
+        };
+        this.inputB = function inputB() {
+            debug('> hero [%s] input - b', type);
+            _this.emit('input:b');
+        };
+
+
+        this.setInputs = function setInputs(controller) {
+            this.listenInputs(_this.inputs, false);
             _this.inputs = controller;
-            listenInputs(_this.inputs, true);
-        }
-        this.setInputs = setInputs;
+            this.listenInputs(_this.inputs, true);
+        };
 
-        function listenInputs(controller, state) {
+        this.listenInputs = function listenInputs(controller, state) {
             if (!controller)
                 return;
 
@@ -94,19 +133,24 @@ define(function(require, exports, module) {
                 controller.on('input:right', _this.inputRight);
                 controller.on('input:up', _this.inputUp);
                 controller.on('input:down', _this.inputDown);*/
-                controller.on('input:a', _this.inputA);
-                controller.on('input:b', _this.inputB);
+                controller.on('input:a', this.inputAThrottle);
+                controller.on('input:b', this.inputBThrottle);
             } else {
                 /*controller.removeListener('input:left', _this.inputLeft);
                 controller.removeListener('input:right', _this.inputRight);
                 controller.removeListener('input:up', _this.inputUp);
                 controller.removeListener('input:down', _this.inputDown);*/
-                controller.removeListener('input:a', _this.inputA);
-                controller.removeListener('input:b', _this.inputB);
+                controller.removeListener('input:a', this.inputAThrottle);
+                controller.removeListener('input:b', this.inputBThrottle);
             }
-        }
+        };
 
-        function inputLeft() {
+
+        /*_this.inputLeft = inputLeft;
+        _this.inputRight = inputRight;
+        _this.inputUp = inputUp;
+        _this.inputDown = inputDown;*/
+        /*function inputLeft() {
             debug('> hero [%s] input - left', type);
         }
         function inputRight() {
@@ -118,14 +162,10 @@ define(function(require, exports, module) {
         }
         function inputDown() {
             debug('> hero [%s] input - down', type);
-        }
-        function inputA() {
-            debug('> hero [%s] input - a', type);
-        }
-        function inputB() {
-            debug('> hero [%s] input - b', type);
-        }
+        }*/
     }
+
+    BaseHero.prototype = Object.create(EventEmitter.prototype);
 
     return BaseHero;
 });

@@ -1,6 +1,7 @@
 define(function(require, exports, module) {
 
     var _ = require('lodash');
+    var debug = require('debug')('jar:game');
     var Settings = require('settings');
     var Creeps = require('creeps');
     var KeysManager = require('KeysManager');
@@ -46,6 +47,31 @@ define(function(require, exports, module) {
             cow = new Cow(game, new HeroInputs(game, KeyMap.cow));
             mouse = new Mouse(game, new HeroInputs(game, KeyMap.mouse));
 
+            mouse.on('input:a', function() {
+                cow.switchColor();
+            });
+
+            mouse.on('input:b', function() {
+                debug('switch mouse & cow!');
+                var mousePos = { x: mouse.sprite.x, y: mouse.sprite.y };
+                var cowPos = { x: cow.sprite.x, y: cow.sprite.y };
+
+                //debug(mousePos);
+                //debug(cowPos);
+
+                mouse.sprite.x = cowPos.x;
+                mouse.sprite.y = cowPos.y;
+
+                cow.sprite.x = mousePos.x;
+                cow.sprite.y = mousePos.y;
+
+                var mouseInputs = mouse.inputs;
+                var cowInputs = cow.inputs;
+
+                mouse.setInputs(cowInputs);
+                cow.setInputs(mouseInputs);
+            });
+
             //var cow2 = game.add.sprite(Settings.COW.startX, Settings.COW.startY, 'hero-test');
             //cow2.animations.add('swim', Phaser.Animation.generateFrameNames('Cow Standing instance', 0, 32, '', 4), 30, true);
             //cow2.animations.play('swim');
@@ -66,7 +92,7 @@ define(function(require, exports, module) {
 
         function preload() {
             game.load.spritesheet('hero-cow', 'assets/cow.png', Settings.COW.width, Settings.COW.height);
-            game.load.spritesheet('hero-mouse', 'assets/cow.png', Settings.COW.width, Settings.COW.height);
+            game.load.spritesheet('hero-mouse', 'assets/mouse.png', Settings.COW.width, Settings.COW.height);
 
             game.load.spritesheet('creepRed', 'assets/dummy_creep_red.png', 34, 34);
             game.load.spritesheet('creepYellow', 'assets/dummy_creep_yellow.png', 34, 34);

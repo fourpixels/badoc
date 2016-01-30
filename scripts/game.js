@@ -39,6 +39,7 @@ define(function(require, exports, module) {
         var cursors;
 
         var fpsText;
+        var renderable;
         //var inputsText;
 
         function create() {

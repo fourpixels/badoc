@@ -44,7 +44,6 @@ define(function(require, exports, module) {
 
         this.initSprite = function initSprite() {
             this.sprite.anchor.setTo(.5, .5);
-            console.log(2222)
             this.sprite.body.setSize(60, 25, 0, 60);
         };
 

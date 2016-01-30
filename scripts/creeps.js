@@ -65,10 +65,8 @@ define(function(require, exports, module) {
             if (!creep.dead) {
                 creep.dead = true;
                 if (creep.type == CreepTypes.BLUE) {
-                    console.log(11111111)
                     creep.animations.play('die-blue'); // animation is set to kill it at the end
                 } else {
-                    console.log(2222222222)
                     creep.animations.play('die-red'); // animation is set to kill it at the end
                 }
 

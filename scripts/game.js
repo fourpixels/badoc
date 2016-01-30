@@ -30,7 +30,11 @@ define(function(require, exports, module) {
         var fpsText;
         var inputsText;
 
+        var renderable;
+
         function create() {
+            renderable = game.add.group();
+
             game.time.advancedTiming = true;
             game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -39,12 +43,14 @@ define(function(require, exports, module) {
             cow = game.add.sprite(Settings.COW.startX, Settings.COW.startY, 'cow');
             cow.anchor.setTo(0.5, 0.5);
             game.physics.arcade.enable(cow);
-            cow.animations.add('right', [0,1,2,3,4,5,6,7,8], 12, true);
-            //cow.animations.add('right', [6, 7, 8], 10, true);
+            cow.body.setSize(60, 25, 0, 60);
+            cow.animations.add('right', null, 12, true);
 
             cursors = game.input.keyboard.createCursorKeys();
 
-            //Creeps.init(game);
+            var creepsGroup = Creeps.init(game);
+            renderable.add(cow);
+            renderable.add(creepsGroup);
 
             fpsText = game.add.text(16, 16, 'FPS: 0', {
                 fontSize: '16px',
@@ -92,6 +98,11 @@ define(function(require, exports, module) {
                 cow.body.velocity.y = 0;
             }
 
+            var timeSinceLastUpdate = game.time.elapsed;
+            Creeps.update(timeSinceLastUpdate);
+
+            renderable.sort('y', Phaser.Group.SORT_ASCENDING);
+
             if (!moving) {
                 cow.animations.stop(null, true);
             } else {
@@ -100,16 +111,14 @@ define(function(require, exports, module) {
 
             fpsText.text = 'FPS: ' + game.time.fps;
 
-            //Creeps.update(game.time.elapsed);
-
             game.physics.arcade.collide(cow, Creeps.group, function(cow, creep) {
-                creep.die();
+                creep.attack();
             });
-            //Creeps.group.forEach(function(creep) {
-            //    game.debug.body(creep);
-            //});
-            //
-            //game.debug.body(cow);
+            Creeps.group.forEach(function(creep) {
+                game.debug.body(creep);
+            });
+
+            game.debug.body(cow);
             inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
         }
 

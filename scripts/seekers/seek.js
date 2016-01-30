@@ -24,41 +24,32 @@ define(function(require, exports, module) {
     applyDirection(enemy, direction, 90);
   }
 
-  return function seek(map, tileSize, target, enemies, callback) {
+  return function seek(map, target, enemies, callback) {
     if (!callback) {
       callback = defaultCallback;
     }
 
-    function tilePosition(position) {
-      position = Math.floor(position / tileSize);
-
-      if (position < 0) return 0;
-      if (position > 28) return 28;
-
-      return position;
-    }
-
     var easystar = new EasyStar.js();
 
-    easystar.setGrid(map);
+    easystar.setGrid(map.tiles);
     easystar.setIterationsPerCalculation(1000);
     easystar.setAcceptableTiles([0]);
     easystar.enableDiagonals();
 
     var interval = setInterval(function(){
-      var currentPlayerXtile = tilePosition(target.body.position.x);
-      var currentPlayerYtile = tilePosition(target.body.position.y);
+      var currentPlayerXtile = map.tileX(target.body.position.x);
+      var currentPlayerYtile = map.tileY(target.body.position.y);
 
       enemies.forEach(function(enemy) {
         if (!enemy.visible) {
           return;
         }
 
-        var currentCowboyXtile = tilePosition(enemy.body.position.x);
-        var currentCowboyYtile = tilePosition(enemy.body.position.y);
+        var currentCowboyXtile = map.tileX(enemy.body.position.x);
+        var currentCowboyYtile = map.tileY(enemy.body.position.y);
 
         easystar.findPath(currentCowboyXtile, currentCowboyYtile, currentPlayerXtile, currentPlayerYtile, function(path) {
-          if (!path) {
+          if (!path || !path[1]) {
             return callback(enemy, 'STOP');
           }
 

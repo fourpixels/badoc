@@ -1,44 +1,10 @@
 define(function(require, exports, module) {
-  var MAP = [
-    [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],
-    [0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0],
-    [0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
-    [0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0]
-  ];
-
-  var TILE_SIZE = 100;
-
   function random(num) {
     return Math.round(Math.random() * num);
   }
 
   var seek = require('seek');
+  var map = require('map');
 
   var Demo = function (game) {
     this.game = game;
@@ -46,17 +12,7 @@ define(function(require, exports, module) {
 
   Demo.prototype = {
     preload: function () {
-      this.game.load.image('obstacle_0', 'assets/map/obstacle_0.jpg');
-      this.game.load.image('obstacle_1', 'assets/map/obstacle_1.jpg');
-      this.game.load.image('obstacle_2', 'assets/map/obstacle_2.jpg');
-      this.game.load.image('obstacle_3', 'assets/map/obstacle_3.jpg');
-
-      this.game.load.image('ground_0', 'assets/map/ground_0.jpg');
-      this.game.load.image('ground_1', 'assets/map/ground_1.jpg');
-      this.game.load.image('ground_2', 'assets/map/ground_2.jpg');
-      this.game.load.image('ground_3', 'assets/map/ground_3.jpg');
-      this.game.load.image('ground_4', 'assets/map/ground_4.jpg');
-      this.game.load.image('ground_5', 'assets/map/ground_5.jpg');
+      map.loadFrom(this.game);
 
       this.game.load.image('E', 'assets/test/controls/E.png');
       this.game.load.image('N', 'assets/test/controls/N.png');
@@ -71,30 +27,10 @@ define(function(require, exports, module) {
       this.game.load.spritesheet('creep','assets/test/enemy.png');
 
       this.game.time.advancedTiming = true;
-      this.game.world.setBounds(0, 0, MAP.length * TILE_SIZE, MAP[0].length * TILE_SIZE);
+      this.game.world.setBounds(0, 0, map.pointWidth(), map.pointHeight());
     },
     create: function () {
-      var floorGroup = this.game.add.group();
-
-      this.obstacleGroup = this.game.add.group();
-
-      for (var yt = 0; yt < MAP.length; yt++) {
-        var tile = MAP[yt];
-        for (var xt = 0; xt < tile.length; xt++) {
-          var floorTile = this.game.add.sprite(xt * TILE_SIZE, yt * TILE_SIZE, 'ground_' + random(5));
-          floorGroup.add(floorTile);
-
-          if (tile[xt] == 1) {
-            var obstacle = this.game.add.sprite(xt * TILE_SIZE, yt * TILE_SIZE, 'obstacle_' + random(3));
-            this.obstacleGroup.add(obstacle);
-
-            this.game.physics.arcade.enable(obstacle);
-
-            obstacle.body.collideWorldBounds = true;
-            obstacle.body.immovable = true;
-          }
-        }
-      }
+      this.obstacleGroup = map.buildGroupsFor(this.game);
 
       var controls = this.game.add.group();
 
@@ -119,7 +55,7 @@ define(function(require, exports, module) {
       this.game.camera.follow(this.player);
 
       this.enemies = [[6, 10], [10, 2]].map(function(tile) {
-        var enemy = this.game.add.sprite(tile[0] * TILE_SIZE, tile[1] * TILE_SIZE, 'creep');
+        var enemy = this.game.add.sprite(map.pointX(tile[0]), map.pointY(tile[1]), 'creep');
 
         this.obstacleGroup.add(enemy);
 
@@ -132,10 +68,10 @@ define(function(require, exports, module) {
         return enemy;
       }, this);
 
-      seek(MAP, TILE_SIZE, this.player, this.enemies);
+      seek(map, this.player, this.enemies);
     },
     update: function () {
-      applyDirection2(this.player, 100);
+      applyDirection(this.player, 100);
 
       this.game.physics.arcade.collide(this.obstacleGroup);
     },
@@ -153,7 +89,7 @@ define(function(require, exports, module) {
     STOP: {x:  0, y:  0},
   };
 
-  function applyDirection2(object, speed) {
+  function applyDirection(object, speed) {
     var direction = DIRECTIONS[object.direction] || DIRECTIONS['STOP'];
 
     object.body.velocity.x = direction.x * speed;

@@ -1,8 +1,4 @@
 define(function(require, exports, module) {
-  function random(num) {
-    return Math.round(Math.random() * num);
-  }
-
   var seek = require('seek');
   var map = require('map');
 

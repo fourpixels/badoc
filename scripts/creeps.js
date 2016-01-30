@@ -5,7 +5,7 @@ define(function(require, exports, module) {
         BLUE: 3
     };
     var _ = require('lodash');
-    var MAX_CREEPS = 200;
+    var MAX_CREEPS = 10;
 
     var Creeps = {};
 
@@ -20,31 +20,32 @@ define(function(require, exports, module) {
             if (Math.random() < 0.5) {
                 image = 'creepRed';
             }
-            var creep = game.add.sprite(Math.round(Math.random() * 700), 0, image);
+            //var creep = game.add.sprite(Math.round(Math.random() * globals.windowWidth), 0, image);
+            var creep = game.add.sprite(Math.round(Math.random() * globals.windowWidth),Math.round(Math.random() * globals.windowHeight), image);
+            game.physics.enable(creep, Phaser.Physics.ARCADE);
+            creep.height = 60;
             creep.animations.add('down', [0, 1, 2], 10, true);
             creep.animations.add('left', [3, 4, 5], 10, true);
             creep.animations.add('right', [6, 7, 8], 10, true);
             creep.animations.add('up', [9, 10, 11], 10, true);
+            var die = creep.animations.add('die', [6, 7, 8], 10, false);
+            die.killOnComplete = true;
+            creep.body.setSize(32, 10, 0, 50);
+            creep.die = function() {
+                creep.animations.play('die');
+            }
             Creeps.group.add(creep);
-            creep.kill();
+            //creep.kill();
         });
-        //game.physics.arcade.enable()
-        //
-        //setTimeout(function() {
-        //    console.log(game.time.elapsed);
-        //}, 4000);
-        //setTimeout(function() {
-        //    console.log(game.time.elapsed);
-        //}, 8000);
     };
 
     Creeps.addCreep = function() {
-        // generate random X, Y == 0
-        var creep = Creeps.group.getFirstDead();
-        if (creep === null || creep === undefined) return;
-        creep.revive();
-        creep.body.velocity.y = 20;
-        creep.animations.play('down');
+        //// generate random X, Y == 0
+        //var creep = Creeps.group.getFirstDead();
+        //if (creep === null || creep === undefined) return;
+        //creep.revive();
+        //creep.body.velocity.y = 20;
+        //creep.animations.play('down');
     };
 
     Creeps.move = function() {
@@ -54,7 +55,7 @@ define(function(require, exports, module) {
     var timeUntilNextCreep = 1500;
 
     Creeps.update = function(timeElapsed) {
-        timeSinceLastCreep += timeElapsed;
+        //timeSinceLastCreep += timeElapsed;
         //if (timeSinceLastCreep > timeUntilNextCreep) {
         //    timeUntilNextCreep -= 100;
         //    if (timeUntilNextCreep <300) timeUntilNextCreep = 300;

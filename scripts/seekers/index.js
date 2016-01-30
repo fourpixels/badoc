@@ -4,6 +4,7 @@ require.config({
         'phaser'         : 'libs/phaser.min',
         'easystar'       : 'libs/easystar',
         'seek'           : 'seekers/seek',
+        'map'            : 'seekers/map',
         'demo'           : 'seekers/demo',
         'settings'       : 'settings',
     },

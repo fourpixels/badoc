@@ -11,6 +11,7 @@ define(function(require, exports, module) {
     var jellyBeans;
     var HeroInputs = require('HeroInputs');
     var KeyMap = require('KeyMap');
+    var UIManager = require('UIManager');
 
     var Game = function Game() {
         var width = window.innerWidth
@@ -33,11 +34,12 @@ define(function(require, exports, module) {
 
         var cow;
         var mouse;
+        var ui;
+
+        var cursors;
 
         var fpsText;
-        var inputsText;
-
-        var renderable;
+        //var inputsText;
 
         function create() {
             renderable = game.add.group();
@@ -50,11 +52,15 @@ define(function(require, exports, module) {
             cow = new Cow(game, new HeroInputs(game, KeyMap.cow));
             mouse = new Mouse(game, new HeroInputs(game, KeyMap.mouse));
 
-            mouse.on('input:a', function() {
+            cow.on('action:b', function() {
+                debug('>> COW:B');
+            });
+
+            mouse.on('action:a', function() {
                 cow.switchColor();
             });
 
-            mouse.on('input:b', function() {
+            mouse.on('action:b', function() {
                 debug('switch mouse & cow!');
                 var mousePos = { x: mouse.sprite.x, y: mouse.sprite.y };
                 var cowPos = { x: cow.sprite.x, y: cow.sprite.y };
@@ -75,6 +81,10 @@ define(function(require, exports, module) {
                 cow.setInputs(mouseInputs);
             });
 
+
+            game.cow = cow;
+            game.mouse = mouse;
+
             var creepsGroup = Creeps.init(game);
             renderable.add(cow.sprite);
             renderable.add(mouse.sprite);
@@ -88,7 +98,9 @@ define(function(require, exports, module) {
             jellyBeans = game.add.group();
             jellyBeans.enableBody = true;
 
-            inputsText = game.add.text(1, 36);
+            ui = new UIManager(game);
+
+            //inputsText = game.add.text(1, 36);
         }
 
         function preload() {
@@ -96,6 +108,11 @@ define(function(require, exports, module) {
             game.load.spritesheet('hero-mouse', 'assets/mouse.png', 100, 138);
             game.load.spritesheet('creep', 'assets/creep.png', 126, 150);
             game.load.image('jellyBean', 'assets/dummy_jellyBean.png');
+
+            game.load.image('stamina-bar-bgr', 'assets/stamina-bar-bgr.png');
+            game.load.image('stamina-bar-over', 'assets/stamina-bar-over.png');
+
+            game.load.image('cow-hit', 'assets/cow-hit.png');
         }
 
         function update() {
@@ -120,7 +137,7 @@ define(function(require, exports, module) {
             //});
             //game.debug.body(mouse.sprite);
             //game.debug.body(cow.sprite);
-            inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
+            //inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
         }
 
         function collectJellyBean(mouse, jellyBean) {

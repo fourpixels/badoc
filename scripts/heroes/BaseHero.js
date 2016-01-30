@@ -14,8 +14,14 @@ define(function(require, exports, module) {
         this.game = game;
         this.type = type;
 
+        this.heroSettings = Settings[type.toUpperCase()];
+
+        this.maxStamina = this.heroSettings.maxStamina;
+        this.stamina = this.maxStamina / 2;
+
         this.sprite = game.add.sprite(Math.round(Math.random() * 500), Math.round(Math.random() * 500), 'hero-' + type);
         game.physics.arcade.enable(this.sprite);
+        this.sprite.body.collideWorldBounds = true;
 
         /*this.sprite.animations.add('down', [0, 1, 2], 10, true);
         this.sprite.animations.add('left', [3, 4, 5], 10, true);
@@ -30,8 +36,8 @@ define(function(require, exports, module) {
             this.initSprite();
             this.initAnimations();
 
-            this.inputAThrottle = _.throttle(this.inputA, 1000, { leading: true, trailing: false });
-            this.inputBThrottle = _.throttle(this.inputB, 1000, { leading: true, trailing: false });
+            this.inputAThrottle = _.throttle(function() { _this.inputA(); }, this.heroSettings.actionAThrottle, { leading: true, trailing: false });
+            this.inputBThrottle = _.throttle(function() { _this.inputB(); }, this.heroSettings.actionBThrottle, { leading: true, trailing: false });
 
             this.setInputs(inputs);
         };
@@ -48,10 +54,9 @@ define(function(require, exports, module) {
             this.sprite.animations.add('move', [1,2,3,4,5,6,7,8], 12, true);
         };
 
+        this.staminaCounter = 0;
 
-
-        var _update = this.sprite.update;
-        this.sprite.update = function() {
+        this.update = function() {
             var lookingDir;
             var moving = false;
             if (_this.inputs.left.isDown) {
@@ -92,6 +97,21 @@ define(function(require, exports, module) {
 
                 _this.moving = moving;
             }
+
+            _this.staminaCounter++;
+            if (_this.staminaCounter == _this.heroSettings.framesToIncreaseStamina) {
+                _this.staminaCounter = 0;
+                _this.increaseStamina(1);
+            }
+        };
+
+        var _update = this.sprite.update;
+        this.sprite.update = function() {
+            _this.update();
+        };
+
+        this.increaseStamina = function increaseStamina(by) {
+            this.stamina = Math.min(this.stamina + by, this.maxStamina);
         };
 
         this.gotoAndPlay = function gotoAndPlay(label) {
@@ -110,12 +130,34 @@ define(function(require, exports, module) {
 
 
         this.inputA = function inputA() {
-            debug('> hero [%s] input - a', type);
-            _this.emit('input:a');
+            debug('> hero [%s] input - a', type, this);
+            if (this.hasEnoughStaminaForA()) {
+                this.stamina -= this.heroSettings.actionAStamina;
+                this.executeA();
+            }
         };
         this.inputB = function inputB() {
             debug('> hero [%s] input - b', type);
-            _this.emit('input:b');
+            if (this.hasEnoughStaminaForB()) {
+                this.stamina -= this.heroSettings.actionBStamina;
+                this.executeB();
+            }
+        };
+
+        this.executeA = function executeA() {
+            _this.emit('action:a');
+        };
+
+        this.executeB = function executeB() {
+            _this.emit('action:b');
+        };
+
+        this.hasEnoughStaminaForA = function hasEnoughStaminaForA() {
+            return this.stamina >= this.heroSettings.actionAStamina;
+        };
+
+        this.hasEnoughStaminaForB = function hasEnoughStaminaForB() {
+            return this.stamina >= this.heroSettings.actionBStamina;
         };
 
 

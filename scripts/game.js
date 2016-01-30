@@ -45,10 +45,10 @@ define(function(require, exports, module) {
         var fpsText;
         var renderable;
         //var inputsText;
-        var obstacleGroup;
+        var noCollide;
 
         function create() {
-            obstacleGroup = map.buildGroupsFor(game);
+            noCollide = map.buildGroupsFor(game);
             renderable = game.add.group();
 
 
@@ -97,6 +97,10 @@ define(function(require, exports, module) {
             renderable.add(cow.sprite);
             renderable.add(mouse.sprite);
             renderable.add(creepsGroup);
+
+            noCollide.add(cow.sprite);
+            noCollide.add(mouse.sprite);
+
             totem = game.add.sprite(globals.windowWidth / 2 - 134 / 2, globals.windowHeight - 326, 'totem');
             totem.animations.add('regular', [0, 1, 2, 3, 4, 5, 6], 12, true);
             totem.animations.play('regular');
@@ -152,6 +156,9 @@ define(function(require, exports, module) {
             });
 
             game.physics.arcade.overlap(mouse.sprite, jellyBeans, collectJellyBean, null, this);
+
+            this.game.physics.arcade.collide(noCollide);
+
             // collission debugging
             //Creeps.group.forEachAlive(function(creep) {
             //    game.debug.body(creep);

@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
   var seek = require('seek');
-  var map = require('map');
+  var map = require('map')();
 
   var Demo = function (game) {
     this.game = game;

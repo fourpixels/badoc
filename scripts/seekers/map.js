@@ -113,5 +113,7 @@ define(function(require, exports, module) {
     return obstacleGroup;
   }
 
-  return new Map;
+  return function() {
+    return new Map(arguments);
+  };
 });

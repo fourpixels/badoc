@@ -54,6 +54,8 @@ define(function(require, exports, module) {
 
         function preload() {
             game.load.spritesheet('cow', 'assets/dummy_cow.png', Settings.COW.width, Settings.COW.height);
+            game.load.spritesheet('creepRed', 'assets/dummy_creep_red.png', 34, 34);
+            game.load.spritesheet('creepYellow', 'assets/dummy_creep_yellow.png', 34, 34);
         }
 
         function update() {
@@ -69,6 +71,10 @@ define(function(require, exports, module) {
             }
 
             fpsText.text = 'FPS: ' + game.time.fps;
+
+            Creeps.update(game.time.elapsed);
+
+            game.physics.arcade.collide(cow, Creeps.group);
             inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
         }
 

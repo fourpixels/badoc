@@ -7,7 +7,7 @@ require.config({
         'Phaser'            : 'libs/phaser.min',
         'settings'          : 'settings',
         'Game'              : 'game',
-        'creeps'         : 'creeps',
+        'creeps'            : 'creeps',
 
         'easystar'       : 'libs/easystar',
 
@@ -27,6 +27,8 @@ require.config({
         'Cow'               : 'heroes/Cow',
         'Mouse'             : 'heroes/Mouse',
         'BaseHero'          : 'heroes/BaseHero',
+
+        'Totem'             : 'totem/Totem',
 
         // ui
         'UIManager'         : 'ui/UIManager'

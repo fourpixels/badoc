@@ -10,6 +10,7 @@ define(function(require, exports, module) {
 
     var Cow = require('Cow');
     var Mouse = require('Mouse');
+    var Totem = require('Totem');
     var jellyBeans;
     var HeroInputs = require('HeroInputs');
     var KeyMap = require('KeyMap');
@@ -101,6 +102,8 @@ define(function(require, exports, module) {
             noCollide.add(cow.sprite);
             noCollide.add(mouse.sprite);
 
+            //totem = new Totem(game);
+            //totem.init(game);
             totem = game.add.sprite(globals.windowWidth / 2 - 134 / 2, globals.windowHeight - 326, 'totem');
             totem.animations.add('regular', [0, 1, 2, 3, 4, 5, 6], 12, true);
             totem.animations.play('regular');
@@ -176,8 +179,8 @@ define(function(require, exports, module) {
             //Creeps.group.forEachAlive(function(creep) {
             //    game.debug.body(creep);
             //});
-            //game.debug.body(mouse.sprite);
-            //game.debug.body(cow.sprite);
+            game.debug.body(mouse.sprite);
+            game.debug.body(cow.sprite);
             //inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
         }
 

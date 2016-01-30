@@ -98,9 +98,15 @@ define(function(require, exports, module) {
         var floorTile = game.add.sprite(this.pointX(xt), this.pointY(yt), 'ground_' + random(this.groundTypes - 1));
         floorGroup.add(floorTile);
 
+        floorTile.scale.x = this.tileSize / floorTile.width;
+        floorTile.scale.y = this.tileSize / floorTile.height;
+
         if (tile[xt] == 1) {
           var obstacle = game.add.sprite(this.pointX(xt), this.pointY(yt), 'obstacle_' + random(this.obsticlesTypes - 1));
           obstacleGroup.add(obstacle);
+
+          obstacle.scale.x = this.tileSize / obstacle.width;
+          obstacle.scale.y = this.tileSize / obstacle.height;
 
           game.physics.arcade.enable(obstacle);
 

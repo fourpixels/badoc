@@ -28,6 +28,7 @@ define(function(require, exports, module) {
         var fpsText;
 
         function create() {
+            game.time.advancedTiming = true;
             game.physics.startSystem(Phaser.Physics.ARCADE);
 
             game.stage.backgroundColor = '#2d2d2d';

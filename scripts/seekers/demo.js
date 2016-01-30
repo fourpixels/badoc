@@ -1,22 +1,16 @@
 define(function(require, exports, module) {
-  // 0 - empty space
-  // 1 - cactus 1
-  // 2 - cactus 2
-
-  var EasyStar = require('easystar');
-
   var MAP = [
     [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],
     [0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,1,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,2,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0],
-    [0,0,2,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0],
@@ -25,12 +19,12 @@ define(function(require, exports, module) {
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,1,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,1,0,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],
     [0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0],
@@ -38,20 +32,22 @@ define(function(require, exports, module) {
     [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0]
   ];
 
-  var TILE_SIZE = 35;
-
   var seek = require('seek');
+  var buildMap = require('map');
 
   var Demo = function (game) {
     this.game = game;
+    this.map = buildMap({
+      tileSize: 100,
+      tiles: MAP,
+      groundTypes: 6,
+      obsticlesTypes: 4,
+    });
   };
 
   Demo.prototype = {
     preload: function () {
-      this.game.load.image('obstacle1', 'assets/test/obstacle1.png');
-      this.game.load.image('obstacle2', 'assets/test/obstacle2.png');
-
-      this.game.load.image('tile', 'assets/test/ground.png');
+      this.map.loadFrom(this.game);
 
       this.game.load.image('E', 'assets/test/controls/E.png');
       this.game.load.image('N', 'assets/test/controls/N.png');
@@ -62,34 +58,14 @@ define(function(require, exports, module) {
       this.game.load.image('SW', 'assets/test/controls/SW.png');
       this.game.load.image('W', 'assets/test/controls/W.png');
 
-      this.game.load.spritesheet('characterAnim','assets/test/character.png');
+      this.game.load.spritesheet('character','assets/test/character.png');
       this.game.load.spritesheet('creep','assets/test/enemy.png');
 
       this.game.time.advancedTiming = true;
-      this.game.world.setBounds(0, 0, MAP.length * TILE_SIZE, MAP[0].length * TILE_SIZE);
+      this.game.world.setBounds(0, 0, this.map.pointWidth(), this.map.pointHeight());
     },
     create: function () {
-      var floorGroup = this.game.add.group();
-
-      this.obstacleGroup = this.game.add.group();
-
-      for (var yt = 0; yt < MAP.length; yt++) {
-        var tile = MAP[yt];
-        for (var xt = 0; xt < tile.length; xt++) {
-          var floorTile = this.game.add.sprite(xt * TILE_SIZE, yt * TILE_SIZE, 'tile');
-          floorGroup.add(floorTile);
-
-          if (tile[xt] == 1 || tile[xt] == 2) {
-            var obstacle = this.game.add.sprite(xt * TILE_SIZE, yt * TILE_SIZE, 'obstacle' + tile[xt]);
-            this.obstacleGroup.add(obstacle);
-
-            this.game.physics.arcade.enable(obstacle);
-
-            obstacle.body.collideWorldBounds = true;
-            obstacle.body.immovable = true;
-          }
-        }
-      }
+      this.obstacleGroup = this.map.buildGroupsFor(this.game);
 
       var controls = this.game.add.group();
 
@@ -103,7 +79,7 @@ define(function(require, exports, module) {
       controls.add(addButton.call(this, this.game.add.sprite(152, 252, 'SE')));
       controls.alpha = 0.6;
 
-      this.player = this.game.add.sprite(350, 280, 'characterAnim');
+      this.player = this.game.add.sprite(350, 280, 'character');
 
       this.obstacleGroup.add(this.player);
 
@@ -113,10 +89,12 @@ define(function(require, exports, module) {
 
       this.game.camera.follow(this.player);
 
-      this.enemies = [[6, 10], [10, 2]].map(function(tile) {
-        var enemy = this.game.add.sprite(tile[0] * TILE_SIZE, tile[1] * TILE_SIZE, 'creep');
+      this.enemiesGroup = this.game.add.group();
+      [[6, 10], [10, 2]].forEach(function(tile) {
+        var enemy = this.game.add.sprite(this.map.pointX(tile[0]), this.map.pointY(tile[1]), 'creep');
 
         this.obstacleGroup.add(enemy);
+        this.enemiesGroup.add(enemy);
 
         this.game.physics.arcade.enable(enemy);
 
@@ -127,10 +105,10 @@ define(function(require, exports, module) {
         return enemy;
       }, this);
 
-      seek(MAP, TILE_SIZE, this.player, this.enemies);
+      seek(this.map, this.player, this.enemiesGroup);
     },
     update: function () {
-      applyDirection2(this.player, 100);
+      applyDirection(this.player, 100);
 
       this.game.physics.arcade.collide(this.obstacleGroup);
     },
@@ -148,7 +126,7 @@ define(function(require, exports, module) {
     STOP: {x:  0, y:  0},
   };
 
-  function applyDirection2(object, speed) {
+  function applyDirection(object, speed) {
     var direction = DIRECTIONS[object.direction] || DIRECTIONS['STOP'];
 
     object.body.velocity.x = direction.x * speed;

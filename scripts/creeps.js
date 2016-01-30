@@ -1,68 +1,130 @@
 define(function(require, exports, module) {
     var CreepTypes = {
-        GREEN: 1,
-        RED: 2,
-        BLUE: 3
+        RED: 1,
+        BLUE: 2
     };
     var _ = require('lodash');
     var MAX_CREEPS = 10;
 
     var Creeps = {};
-
     var timeSinceLastCreep = 0;
+
+    var gameRef;
+
+    function Creep(game) {
+        gameRef = game; // YES , THIS IS BAD
+        var creep;
+        creep = game.add.sprite(0, 0, 'creep');
+        creep.anchor.setTo(.5, .5);
+        if (Math.random() < 0.5) {
+            creep.type = CreepTypes.RED;
+        } else {
+            creep.type = CreepTypes.BLUE;
+        }
+        //var creep = game.add.sprite(Math.round(Math.random() * globals.windowWidth),Math.round(Math.random() * globals.windowHeight), image);
+        game.physics.enable(creep, Phaser.Physics.ARCADE);
+
+        // creep collision area
+        creep.body.setSize(60, 30, 0, 80);
+
+        creep.checkWorldBounds = true;
+        creep.outOfBoundsKill = true;
+
+        // creep animations
+        creep.animations.add('move-blue', [0, 1, 2, 3, 4, 5, 6, 7], 12, true);
+        creep.animations.add('die-blue', [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23], 12, false).killOnComplete = true;
+        creep.animations.add('move-red', [24, 25, 26, 27, 28, 29, 30, 31], 12, true);
+        creep.animations.add('die-red', [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], 12, false).killOnComplete = true;
+
+        creep.spawn = function() {
+            creep.revive();
+            creep.dead = false;
+            //gameRef.add.tween(creep).from({alpha: 0}, 4000, Phaser.Easing.Linear.None, true, 0);
+            var some = Math.random();
+            var x = 0
+            if (some > 0.67) {
+                x = globals.windowWidth - creep.body.width;
+            } else if (some > 0.33) {
+                x = Math.round(globals.windowWidth / 2) - Math.round(creep.body.width / 2)
+            } else {
+                x = 0;
+            }
+            creep.reset(x, creep.body.height);
+            //calculate direction
+            creep.body.velocity.y = 60;
+            if (creep.type == CreepTypes.BLUE) {
+                creep.animations.play('move-blue');
+            } else {
+                creep.animations.play('move-red');
+            }
+        }
+
+        // kill creep and return death coordinates
+        // callback to put a jelly bean at given coordinates
+        creep.die = function(callback) {
+            if (!creep.dead) {
+                creep.dead = true;
+                if (creep.type == CreepTypes.BLUE) {
+                    console.log(11111111)
+                    creep.animations.play('die-blue'); // animation is set to kill it at the end
+                } else {
+                    console.log(2222222222)
+                    creep.animations.play('die-red'); // animation is set to kill it at the end
+                }
+
+                creep.animations.currentAnim.onComplete.add(function() {
+                    var coordinates = {
+                        x: creep.body.x,
+                        y: creep.body.y
+                    };
+                    callback(coordinates);
+                });
+            }
+        };
+
+        creep.attack = function() {
+            creep.body.velocity.x = 0;
+            creep.body.velocity.y = 0;
+            creep.animations.play('attack');
+        }
+
+        creep.kill();
+
+        return creep;
+    }
 
     Creeps.init = function(game) {
         Creeps.group = game.add.group();
         Creeps.group.enableBody = true;
 
         _.times(MAX_CREEPS, function() {
-            var image = 'creepYellow';
-            if (Math.random() < 0.5) {
-                image = 'creepRed';
-            }
-            //var creep = game.add.sprite(Math.round(Math.random() * globals.windowWidth), 0, image);
-            var creep = game.add.sprite(Math.round(Math.random() * globals.windowWidth),Math.round(Math.random() * globals.windowHeight), image);
-            game.physics.enable(creep, Phaser.Physics.ARCADE);
-            creep.height = 60;
-            creep.animations.add('down', [0, 1, 2], 10, true);
-            creep.animations.add('left', [3, 4, 5], 10, true);
-            creep.animations.add('right', [6, 7, 8], 10, true);
-            creep.animations.add('up', [9, 10, 11], 10, true);
-            var die = creep.animations.add('die', [6, 7, 8], 10, false);
-            die.killOnComplete = true;
-            creep.body.setSize(32, 10, 0, 50);
-            creep.die = function() {
-                creep.animations.play('die');
-            }
-            Creeps.group.add(creep);
-            //creep.kill();
+            Creeps.group.add(new Creep(game));
         });
+
+        return Creeps.group;
     };
 
     Creeps.addCreep = function() {
-        //// generate random X, Y == 0
-        //var creep = Creeps.group.getFirstDead();
-        //if (creep === null || creep === undefined) return;
-        //creep.revive();
-        //creep.body.velocity.y = 20;
-        //creep.animations.play('down');
+        var creep = Creeps.group.getFirstDead();
+        if (creep === null || creep === undefined) return;
+        creep.spawn();
     };
 
     Creeps.move = function() {
 
     };
 
-    var timeUntilNextCreep = 1500;
+    var timeUntilNextCreep = 2500;
 
     Creeps.update = function(timeElapsed) {
-        //timeSinceLastCreep += timeElapsed;
-        //if (timeSinceLastCreep > timeUntilNextCreep) {
-        //    timeUntilNextCreep -= 100;
-        //    if (timeUntilNextCreep <300) timeUntilNextCreep = 300;
-        //    Creeps.addCreep();
-        //    Creeps.group.sort('y', Phaser.Group.SORT_ASCENDING);
-        //    timeSinceLastCreep = 0;
-        //}
+        timeSinceLastCreep += timeElapsed;
+        if (timeSinceLastCreep > timeUntilNextCreep) {
+            timeUntilNextCreep -= 100;
+            if (timeUntilNextCreep <300) timeUntilNextCreep = 300;
+            Creeps.addCreep();
+            //Creeps.group.sort('y', Phaser.Group.SORT_ASCENDING);
+            timeSinceLastCreep = 0;
+        }
     };
 
     return Creeps;

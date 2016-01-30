@@ -122,11 +122,11 @@ define(function(require, exports, module) {
         function preload() {
             map.loadFrom(game);
             game.load.spritesheet('hero-cow', 'assets/cow.png', Settings.COW.width, Settings.COW.height);
-            game.load.spritesheet('hero-mouse', 'assets/mouse.png', 100, 138);
-            game.load.spritesheet('creep', 'assets/creep.png', 126, 150);
+            game.load.spritesheet('hero-mouse', 'assets/mouse.png', Settings.MOUSE.width, Settings.MOUSE.height);
+            game.load.spritesheet('creep', 'assets/creep.png', Settings.CREEP.width, Settings.CREEP.height);
             game.load.image('jellyBean', 'assets/dummy_jellyBean.png');
 
-            game.load.spritesheet('totem', 'assets/totem.png', 134, 326);
+            game.load.spritesheet('totem', 'assets/totem.png', Settings.TOTEM.width, Settings.TOTEM.height);
 
             game.load.image('stamina-bar-bgr', 'assets/stamina-bar-bgr.png');
             game.load.image('stamina-bar-over', 'assets/stamina-bar-over.png');

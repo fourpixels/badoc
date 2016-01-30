@@ -6,6 +6,7 @@ require.config({
         'domReady'       : 'libs/domReady',
         'phaser'         : 'libs/phaser.min',
         'settings'       : 'settings',
+        'creeps'         : 'creeps',
         'game'           : 'game'
     },
     config: {

@@ -3,10 +3,9 @@ require.config({
     paths: {
         'phaser'         : 'libs/phaser.min',
         'easystar'       : 'libs/easystar',
-        'seek'           : 'seekers/seek',
-        'map'            : 'seekers/map',
+        'seek'           : 'seek',
+        'map'            : 'map',
         'demo'           : 'seekers/demo',
-        'settings'       : 'settings',
     },
     config: {},
     deps: ['phaser'],

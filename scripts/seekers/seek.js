@@ -40,11 +40,7 @@ define(function(require, exports, module) {
       var currentPlayerXtile = map.tileX(target.body.position.x);
       var currentPlayerYtile = map.tileY(target.body.position.y);
 
-      enemies.forEach(function(enemy) {
-        if (!enemy.visible) {
-          return;
-        }
-
+      enemies.forEachAlive(function(enemy) {
         var currentCowboyXtile = map.tileX(enemy.body.position.x);
         var currentCowboyYtile = map.tileY(enemy.body.position.y);
 

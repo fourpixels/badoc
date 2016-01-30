@@ -89,10 +89,12 @@ define(function(require, exports, module) {
 
       this.game.camera.follow(this.player);
 
-      this.enemies = [[6, 10], [10, 2]].map(function(tile) {
+      this.enemiesGroup = this.game.add.group();
+      [[6, 10], [10, 2]].forEach(function(tile) {
         var enemy = this.game.add.sprite(this.map.pointX(tile[0]), this.map.pointY(tile[1]), 'creep');
 
         this.obstacleGroup.add(enemy);
+        this.enemiesGroup.add(enemy);
 
         this.game.physics.arcade.enable(enemy);
 
@@ -103,7 +105,7 @@ define(function(require, exports, module) {
         return enemy;
       }, this);
 
-      seek(this.map, this.player, this.enemies);
+      seek(this.map, this.player, this.enemiesGroup);
     },
     update: function () {
       applyDirection(this.player, 100);

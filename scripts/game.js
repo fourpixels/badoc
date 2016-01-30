@@ -113,6 +113,8 @@ define(function(require, exports, module) {
             game.load.image('stamina-bar-bgr', 'assets/stamina-bar-bgr.png');
             game.load.image('stamina-bar-over', 'assets/stamina-bar-over.png');
 
+            game.load.image('cow-hit', 'assets/cow-hit.png');
+
             //game.load.spritesheet('hero-cow', 'assets/dummy_creep_red.png', 34, 34);
             //game.load.spritesheet('hero-mouse', 'assets/dummy_creep_yellow.png', 34, 34);
         }
@@ -159,9 +161,9 @@ define(function(require, exports, module) {
 
             //Creeps.update(game.time.elapsed);
 
-            game.physics.arcade.collide(cow, Creeps.group, function(cow, creep) {
+            /*game.physics.arcade.collide(cow, Creeps.group, function(cow, creep) {
                 creep.die();
-            });
+            });*/
             //Creeps.group.forEach(function(creep) {
             //    game.debug.body(creep);
             //});

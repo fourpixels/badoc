@@ -21,6 +21,7 @@ define(function(require, exports, module) {
 
         this.sprite = game.add.sprite(Math.round(Math.random() * 500), Math.round(Math.random() * 500), 'hero-' + type);
         game.physics.arcade.enable(this.sprite);
+        this.sprite.body.collideWorldBounds = true;
 
         /*this.sprite.animations.add('down', [0, 1, 2], 10, true);
         this.sprite.animations.add('left', [3, 4, 5], 10, true);
@@ -132,7 +133,6 @@ define(function(require, exports, module) {
                 this.stamina -= this.heroSettings.actionAStamina;
                 this.executeA();
             }
-
         };
         this.inputB = function inputB() {
             debug('> hero [%s] input - b', type);

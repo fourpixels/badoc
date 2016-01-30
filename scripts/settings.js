@@ -20,7 +20,7 @@
             startY: 250,
             velocity: 150,
             maxStamina: 100,
-            framesToIncreaseStamina: 4,
+            framesToIncreaseStamina: 2,
             actionAStamina: 10,
             actionBStamina: 50,
             actionAThrottle: 250,

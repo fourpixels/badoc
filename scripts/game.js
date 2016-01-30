@@ -179,8 +179,8 @@ define(function(require, exports, module) {
             //Creeps.group.forEachAlive(function(creep) {
             //    game.debug.body(creep);
             //});
-            game.debug.body(mouse.sprite);
-            game.debug.body(cow.sprite);
+            //game.debug.body(mouse.sprite);
+            //game.debug.body(cow.sprite);
             //inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
         }
 

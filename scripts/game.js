@@ -14,8 +14,10 @@ define(function(require, exports, module) {
             || document.documentElement.clientHeight
             || document.body.clientHeight;
 
+        globals.windowWidth = width;
+        globals.windowHeight = height;
 
-        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
+        var game = new Phaser.Game(width, height, Phaser.AUTO, '', {
             create: create,
             preload: preload,
             update: update,
@@ -37,12 +39,12 @@ define(function(require, exports, module) {
             cow = game.add.sprite(Settings.COW.startX, Settings.COW.startY, 'cow');
             cow.anchor.setTo(0.5, 0.5);
             game.physics.arcade.enable(cow);
-            cow.animations.add('left', [3, 4, 5], 10, true);
-            cow.animations.add('right', [6, 7, 8], 10, true);
+            cow.animations.add('right', [0,1,2,3,4,5,6,7,8], 12, true);
+            //cow.animations.add('right', [6, 7, 8], 10, true);
 
             cursors = game.input.keyboard.createCursorKeys();
 
-            Creeps.init(game);
+            //Creeps.init(game);
 
             fpsText = game.add.text(16, 16, 'FPS: 0', {
                 fontSize: '16px',
@@ -53,28 +55,61 @@ define(function(require, exports, module) {
         }
 
         function preload() {
-            game.load.spritesheet('cow', 'assets/dummy_cow.png', Settings.COW.width, Settings.COW.height);
+            game.load.spritesheet('cow', 'assets/cow.png', Settings.COW.width, Settings.COW.height);
             game.load.spritesheet('creepRed', 'assets/dummy_creep_red.png', 34, 34);
             game.load.spritesheet('creepYellow', 'assets/dummy_creep_yellow.png', 34, 34);
         }
-
+        var lookingRight = true; //what is the default?
         function update() {
+            var moving = false;
             if (cursors.left.isDown) {
-                cow.animations.play('left');
+                moving = true;
+                if (lookingRight) {
+                    lookingRight = false
+                    cow.scale.x *=-1;
+                }
                 cow.body.velocity.x = -Settings.COW.velocity;
             } else if (cursors.right.isDown) {
-                cow.animations.play('right');
+                moving = true;
+                if (!lookingRight) {
+                    lookingRight = true
+                    cow.scale.x *= -1;
+                }
                 cow.body.velocity.x = Settings.COW.velocity;
             } else {
-                cow.animations.stop(null, true);
+                norLeftNorRight = true;
                 cow.body.velocity.x = 0;
+            }
+
+            if (cursors.up.isDown) {
+                moving = true;
+                cow.body.velocity.y = -Settings.COW.velocity;
+            } else if (cursors.down.isDown) {
+                moving = true;
+
+                cow.body.velocity.y = Settings.COW.velocity;
+            } else {
+                cow.body.velocity.y = 0;
+            }
+
+            if (!moving) {
+                cow.animations.stop(null, true);
+            } else {
+                cow.animations.play('right');
             }
 
             fpsText.text = 'FPS: ' + game.time.fps;
 
-            Creeps.update(game.time.elapsed);
+            //Creeps.update(game.time.elapsed);
 
-            game.physics.arcade.collide(cow, Creeps.group);
+            game.physics.arcade.collide(cow, Creeps.group, function(cow, creep) {
+                creep.die();
+            });
+            //Creeps.group.forEach(function(creep) {
+            //    game.debug.body(creep);
+            //});
+            //
+            //game.debug.body(cow);
             inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
         }
 

@@ -14,6 +14,7 @@ define(function(require, exports, module) {
         this.hitSprite = game.add.sprite(this.sprite.x, this.sprite.y, 'cow-hit');
         this.hitSprite.alpha = .2;
         game.physics.arcade.enable(this.hitSprite);
+        //this.hitSprite.body.enable = false;
 
         var hideHit = false;
         var hideLarge = false;
@@ -26,8 +27,9 @@ define(function(require, exports, module) {
 
             if (hideHit) {
                 hideHit = false;
-                this.hitSprite.alpha = .2;
+                //this.hitSprite.alpha = .2;
                 this.hitSprite.scale.x = this.hitSprite.scale.y = 1;
+                this.hitSprite.body.enable = false;
             }
 
             if (this.hitSprite.alpha > .5) {
@@ -39,12 +41,14 @@ define(function(require, exports, module) {
 
         this.executeA = function executeA() {
             _this.hitSprite.alpha = .72;
+            this.hitSprite.body.enable = true;
             _this.emit('action:a');
         };
 
         this.executeB = function executeB() {
             _this.hitSprite.alpha = .72;
             _this.hitSprite.scale.x = _this.hitSprite.scale.y = 1.5;
+            this.hitSprite.body.enable = true;
             _this.emit('action:b');
         };
 

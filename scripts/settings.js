@@ -33,6 +33,9 @@
             actionBStamina: 90,
             actionAThrottle: 1000,
             actionBThrottle: 5000
+        },
+        TOTEM: {
+            maxHits: 10
         }
     };
 });

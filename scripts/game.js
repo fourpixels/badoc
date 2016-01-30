@@ -135,7 +135,7 @@ define(function(require, exports, module) {
 
             fpsText.text = 'FPS: ' + game.time.fps;
 
-            game.physics.arcade.collide(cow.sprite, Creeps.group, function(cow, creep) {
+            game.physics.arcade.collide(cow.hitSprite, Creeps.group, function(cow, creep) {
                 //creep.attack();
                 creep.die(function(coordinates) {
                     jellyBeans.create(coordinates.x, coordinates.y, 'jellyBean');

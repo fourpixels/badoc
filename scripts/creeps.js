@@ -39,6 +39,7 @@ define(function(require, exports, module) {
         creep.spawn = function() {
             creep.revive();
             creep.dead = false;
+            creep.body.enable = true;
             //gameRef.add.tween(creep).from({alpha: 0}, 4000, Phaser.Easing.Linear.None, true, 0);
             var some = Math.random();
             var x = 0
@@ -63,6 +64,7 @@ define(function(require, exports, module) {
         // callback to put a jelly bean at given coordinates
         creep.die = function(callback) {
             if (!creep.dead) {
+                creep.body.enable = false;
                 creep.dead = true;
                 if (creep.type == CreepTypes.BLUE) {
                     console.log(11111111)

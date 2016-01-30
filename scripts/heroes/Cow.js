@@ -10,11 +10,11 @@ define(function(require, exports, module) {
 
         var _this = this;
 
-        this.cowColor = 'red';
+        this.cowColor = 'blue';
         this.hitSprite = game.add.sprite(this.sprite.x, this.sprite.y, 'cow-hit');
         this.hitSprite.alpha = .2;
         game.physics.arcade.enable(this.hitSprite);
-        //this.hitSprite.body.enable = false;
+        this.hitSprite.body.enable = false;
 
         var hideHit = false;
         var hideLarge = false;
@@ -27,13 +27,17 @@ define(function(require, exports, module) {
 
             if (hideHit) {
                 hideHit = false;
-                //this.hitSprite.alpha = .2;
+                /*this.hitSprite.alpha = .2;
                 this.hitSprite.scale.x = this.hitSprite.scale.y = 1;
-                this.hitSprite.body.enable = false;
+                this.hitSprite.body.enable = false;*/
             }
 
             if (this.hitSprite.alpha > .5) {
                 hideHit = true;
+
+                this.hitSprite.alpha = .2;
+                this.hitSprite.scale.x = this.hitSprite.scale.y = 1;
+                this.hitSprite.body.enable = false;
             }
 
             //game.debug.body(this.hitSprite);
@@ -53,6 +57,8 @@ define(function(require, exports, module) {
         };
 
         this.cast = function cast(color) {
+            if (!color)
+                return;
             if (color != this.cowColor) {
                 this.cowColor = color;
                 this.stop();
@@ -71,10 +77,10 @@ define(function(require, exports, module) {
 
         this.initAnimations = function initAnimations() {
             console.log('cow init animations',  this);
-            this.sprite.animations.add('idle-red', [0], 12, false);
-            this.sprite.animations.add('idle-blue', [9], 12, false);
-            this.sprite.animations.add('move-red', [0,1,2,3,4,5,6,7,8], 12, true);
-            this.sprite.animations.add('move-blue', [9,10,11,12,13,14,15,16,17], 12, true);
+            this.sprite.animations.add('idle-red', [9], 12, false);
+            this.sprite.animations.add('idle-blue', [0], 12, false);
+            this.sprite.animations.add('move-red', [10,11,12,13,14,15,16,17], 12, true);
+            this.sprite.animations.add('move-blue', [1,2,3,4,5,6,7,8], 12, true);
         };
 
         this.initSprite = function initSprite() {
@@ -88,7 +94,7 @@ define(function(require, exports, module) {
         };
 
         this.init();
-
+        this.stop();
     }
 
     Cow.prototype = Object.create(BaseHero.prototype);

@@ -142,11 +142,22 @@ define(function(require, exports, module) {
 
             fpsText.text = 'FPS: ' + game.time.fps;
 
-            game.physics.arcade.collide(cow.hitSprite, Creeps.group, function(cow, creep) {
+            game.physics.arcade.overlap(cow.hitSprite, Creeps.group, function(cowSprite, creep) {
                 //creep.attack();
-                creep.die(function(coordinates) {
-                    jellyBeans.create(coordinates.x, coordinates.y, 'jellyBean');
-                });
+                var die = false;
+                if (cow.cowColor == 'red') {
+                    if (creep.type == 1)
+                        die = true;
+                } else if (cow.cowColor == 'blue') {
+                    if (creep.type == 2)
+                        die = true;
+                }
+                console.log('collision:', creep.type, cow.cowColor);
+                if (die) {
+                    creep.die(function(coordinates) {
+                        jellyBeans.create(coordinates.x, coordinates.y, 'jellyBean');
+                    });
+                }
             });
 
             game.physics.arcade.overlap(mouse.sprite, jellyBeans, collectJellyBean, null, this);

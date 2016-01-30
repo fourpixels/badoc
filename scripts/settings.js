@@ -18,7 +18,7 @@
             height: 138,
             startX: 350,
             startY: 250,
-            velocity: 80
+            velocity: 150
         }
     };
 });

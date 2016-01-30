@@ -16,15 +16,21 @@ require.config({
         'debug'             : 'libs/debug',
         'KeysManager'       : 'inputs/KeysManager',
         'KeyMap'            : 'inputs/KeyMap',
-        'HeroInputs'        : 'inputs/HeroInputs'
+        'HeroInputs'        : 'inputs/HeroInputs',
 
         // hero
-
+        'Cow'               : 'heroes/Cow',
+        'Mouse'             : 'heroes/Mouse',
+        'BaseHero'          : 'heroes/BaseHero'
     },
     config: {
 
     },
-    deps: ['jquery', 'Phaser', 'lodash', 'settings', 'domReady', 'debug', 'KeyMap', 'KeysManager', 'HeroInputs', 'creeps'],
+    deps: ['jquery', 'Phaser', 'lodash', 'settings', 'domReady', 'debug', 'KeyMap', 'KeysManager', 'HeroInputs',
+        // heroes
+        'Cow', 'Mouse', 'BaseHero',
+        'creeps'
+    ],
     callback: function(domReady) {
         require(['game'], function(Game) {
             domReady(function() {

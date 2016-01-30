@@ -5,12 +5,10 @@ define(function(require, exports, module) {
     var EventEmitter = require('EventEmitter');
 
 
-    function HeroInputs(keymap) {
+    function HeroInputs(game, keymap) {
         EventEmitter.call(this);
 
         var _this = this;
-
-        this.hero = null;
 
         this.up = game.input.keyboard.addKey(keymap.up);
         this.down = game.input.keyboard.addKey(keymap.down);
@@ -19,25 +17,19 @@ define(function(require, exports, module) {
         this.a = game.input.keyboard.addKey(keymap.a);
         this.b = game.input.keyboard.addKey(keymap.b);
 
-        function callHeroAction(action) {
+        function dispatch(action) {
             return function() {
-                var name = 'input' + action;
-                if (_this.hero && _this.hero[name]) {
-                    _this.hero[name]();
-                }
+                console.log('dispatch -> input:%s', action);
+                _this.emit('input:' + action);
             }
         }
 
-        this.up.onDown.add(callHeroAction('Up'));
-        this.down.onDown.add(callHeroAction('Down'));
-        this.left.onDown.add(callHeroAction('Left'));
-        this.right.onDown.add(callHeroAction('Right'));
-        this.a.onDown.add(callHeroAction('A'));
-        this.b.onDown.add(callHeroAction('B'));
-
-        this.setHero = function setHero(hero) {
-            _this.hero = hero;
-        };
+        /*this.up.onDown.add(dispatch('up'));
+        this.down.onDown.add(dispatch('down'));
+        this.left.onDown.add(dispatch('left'));
+        this.right.onDown.add(dispatch('right'));*/
+        this.a.onDown.add(dispatch('a'));
+        this.b.onDown.add(dispatch('b'));
     }
 
     HeroInputs.prototype = Object.create(EventEmitter.prototype);

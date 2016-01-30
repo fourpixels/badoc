@@ -4,13 +4,14 @@ require.config({
         'phaser'         : 'libs/phaser.min',
         'easystar'       : 'libs/easystar',
         'seek'           : 'seekers/seek',
+        'demo'           : 'seekers/demo',
         'settings'       : 'settings',
     },
     config: {},
     deps: ['phaser'],
     callback: function() {
-        require(['seek'], function(seek) {
-          seek();
+        require(['demo'], function(game) {
+          game();
         });
     }
 });

@@ -153,10 +153,9 @@ define(function(require, exports, module) {
             //inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
         }
 
-        function collectJellyBean(mouse, jellyBean) {
+        function collectJellyBean(mouseSprite, jellyBean) {
             jellyBean.kill();
-            //mouse.increaseStamina();
-            // mouse add power
+            mouse.increaseStamina(20);
         };
 
         function render() {

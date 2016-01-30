@@ -5,6 +5,7 @@ define(function(require, exports, module) {
     var Settings = require('settings');
     var Creeps = require('creeps');
     var map = require('defaultMap')();
+    var seek = require('seek');
     var KeysManager = require('KeysManager');
 
     var Cow = require('Cow');
@@ -44,10 +45,10 @@ define(function(require, exports, module) {
         var fpsText;
         var renderable;
         //var inputsText;
-        var obstacleGroup;
+        var noCollide;
 
         function create() {
-            obstacleGroup = map.buildGroupsFor(game);
+            noCollide = map.buildGroupsFor(game);
             renderable = game.add.group();
 
 
@@ -96,9 +97,15 @@ define(function(require, exports, module) {
             renderable.add(cow.sprite);
             renderable.add(mouse.sprite);
             renderable.add(creepsGroup);
+
+            noCollide.add(cow.sprite);
+            noCollide.add(mouse.sprite);
+
             totem = game.add.sprite(globals.windowWidth / 2 - 134 / 2, globals.windowHeight - 326, 'totem');
             totem.animations.add('regular', [0, 1, 2, 3, 4, 5, 6], 12, true);
             totem.animations.play('regular');
+
+            noCollide.add(totem);
 
             //var cow2 = game.add.sprite(Settings.COW.startX, Settings.COW.startY, 'hero-test');
             //cow2.animations.add('swim', Phaser.Animation.generateFrameNames('Cow Standing instance', 0, 32, '', 4), 30, true);
@@ -116,17 +123,18 @@ define(function(require, exports, module) {
 
             ui = new UIManager(game);
 
+            seek(map, [cow.hitSprite], creepsGroup);
             //inputsText = game.add.text(1, 36);
         }
 
         function preload() {
             map.loadFrom(game);
             game.load.spritesheet('hero-cow', 'assets/cow.png', Settings.COW.width, Settings.COW.height);
-            game.load.spritesheet('hero-mouse', 'assets/mouse.png', 100, 138);
-            game.load.spritesheet('creep', 'assets/creep.png', 126, 150);
+            game.load.spritesheet('hero-mouse', 'assets/mouse.png', Settings.MOUSE.width, Settings.MOUSE.height);
+            game.load.spritesheet('creep', 'assets/creep.png', Settings.CREEP.width, Settings.CREEP.height);
             game.load.image('jellyBean', 'assets/dummy_jellyBean.png');
 
-            game.load.spritesheet('totem', 'assets/totem.png', 134, 326);
+            game.load.spritesheet('totem', 'assets/totem.png', Settings.TOTEM.width, Settings.TOTEM.height);
 
             game.load.image('stamina-bar-bgr', 'assets/stamina-bar-bgr.png');
             game.load.image('stamina-bar-over', 'assets/stamina-bar-over.png');
@@ -161,6 +169,9 @@ define(function(require, exports, module) {
             });
 
             game.physics.arcade.overlap(mouse.sprite, jellyBeans, collectJellyBean, null, this);
+
+            this.game.physics.arcade.collide(noCollide);
+
             // collission debugging
             //Creeps.group.forEachAlive(function(creep) {
             //    game.debug.body(creep);

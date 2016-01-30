@@ -38,7 +38,11 @@ define(function(require, exports, module) {
     [0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0]
   ];
 
-  var TILE_SIZE = 35;
+  var TILE_SIZE = 100;
+
+  function random(num) {
+    return Math.round(Math.random() * num);
+  }
 
   var seek = require('seek');
 
@@ -48,10 +52,17 @@ define(function(require, exports, module) {
 
   Demo.prototype = {
     preload: function () {
-      this.game.load.image('obstacle1', 'assets/test/obstacle1.png');
-      this.game.load.image('obstacle2', 'assets/test/obstacle2.png');
+      this.game.load.image('obstacle_0', 'assets/map/obstacle_0.jpg');
+      this.game.load.image('obstacle_1', 'assets/map/obstacle_1.jpg');
+      this.game.load.image('obstacle_2', 'assets/map/obstacle_2.jpg');
+      this.game.load.image('obstacle_3', 'assets/map/obstacle_3.jpg');
 
-      this.game.load.image('tile', 'assets/test/ground.png');
+      this.game.load.image('ground_0', 'assets/map/ground_0.jpg');
+      this.game.load.image('ground_1', 'assets/map/ground_1.jpg');
+      this.game.load.image('ground_2', 'assets/map/ground_2.jpg');
+      this.game.load.image('ground_3', 'assets/map/ground_3.jpg');
+      this.game.load.image('ground_4', 'assets/map/ground_4.jpg');
+      this.game.load.image('ground_5', 'assets/map/ground_5.jpg');
 
       this.game.load.image('E', 'assets/test/controls/E.png');
       this.game.load.image('N', 'assets/test/controls/N.png');
@@ -62,7 +73,7 @@ define(function(require, exports, module) {
       this.game.load.image('SW', 'assets/test/controls/SW.png');
       this.game.load.image('W', 'assets/test/controls/W.png');
 
-      this.game.load.spritesheet('characterAnim','assets/test/character.png');
+      this.game.load.spritesheet('character','assets/test/character.png');
       this.game.load.spritesheet('creep','assets/test/enemy.png');
 
       this.game.time.advancedTiming = true;
@@ -76,11 +87,11 @@ define(function(require, exports, module) {
       for (var yt = 0; yt < MAP.length; yt++) {
         var tile = MAP[yt];
         for (var xt = 0; xt < tile.length; xt++) {
-          var floorTile = this.game.add.sprite(xt * TILE_SIZE, yt * TILE_SIZE, 'tile');
+          var floorTile = this.game.add.sprite(xt * TILE_SIZE, yt * TILE_SIZE, 'ground_' + random(5));
           floorGroup.add(floorTile);
 
           if (tile[xt] == 1 || tile[xt] == 2) {
-            var obstacle = this.game.add.sprite(xt * TILE_SIZE, yt * TILE_SIZE, 'obstacle' + tile[xt]);
+            var obstacle = this.game.add.sprite(xt * TILE_SIZE, yt * TILE_SIZE, 'obstacle_' + random(3));
             this.obstacleGroup.add(obstacle);
 
             this.game.physics.arcade.enable(obstacle);
@@ -103,7 +114,7 @@ define(function(require, exports, module) {
       controls.add(addButton.call(this, this.game.add.sprite(152, 252, 'SE')));
       controls.alpha = 0.6;
 
-      this.player = this.game.add.sprite(350, 280, 'characterAnim');
+      this.player = this.game.add.sprite(350, 280, 'character');
 
       this.obstacleGroup.add(this.player);
 

@@ -35,6 +35,7 @@ define(function(require, exports, module) {
         var cow;
         var mouse;
         var ui;
+        var totem;
 
         var cursors;
 
@@ -48,7 +49,7 @@ define(function(require, exports, module) {
             game.time.advancedTiming = true;
             game.physics.startSystem(Phaser.Physics.ARCADE);
 
-            game.stage.backgroundColor = '#2d2d2d';
+            game.stage.backgroundColor = '#AAAAAA';
 
             cow = new Cow(game, new HeroInputs(game, KeyMap.cow));
             mouse = new Mouse(game, new HeroInputs(game, KeyMap.mouse));
@@ -90,6 +91,15 @@ define(function(require, exports, module) {
             renderable.add(cow.sprite);
             renderable.add(mouse.sprite);
             renderable.add(creepsGroup);
+            totem = game.add.sprite(globals.windowWidth / 2 - 134 / 2, globals.windowHeight - 326, 'totem');
+            totem.animations.add('regular', [0, 1, 2, 3, 4, 5, 6], 12, true);
+            totem.animations.play('regular');
+
+            //var cow2 = game.add.sprite(Settings.COW.startX, Settings.COW.startY, 'hero-test');
+            //cow2.animations.add('swim', Phaser.Animation.generateFrameNames('Cow Standing instance', 0, 32, '', 4), 30, true);
+            //cow2.animations.play('swim');
+            //cow2.animations.add('left', [3, 4, 5], 10, true);
+            //cow2.animations.add('right', [6, 7, 8], 10, true);
 
             fpsText = game.add.text(16, 16, 'FPS: 0', {
                 fontSize: '16px',
@@ -109,6 +119,8 @@ define(function(require, exports, module) {
             game.load.spritesheet('hero-mouse', 'assets/mouse.png', 100, 138);
             game.load.spritesheet('creep', 'assets/creep.png', 126, 150);
             game.load.image('jellyBean', 'assets/dummy_jellyBean.png');
+
+            game.load.spritesheet('totem', 'assets/totem.png', 134, 326);
 
             game.load.image('stamina-bar-bgr', 'assets/stamina-bar-bgr.png');
             game.load.image('stamina-bar-over', 'assets/stamina-bar-over.png');

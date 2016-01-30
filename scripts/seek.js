@@ -24,9 +24,11 @@ define(function(require, exports, module) {
     applyDirection(enemy, direction, 90);
   }
 
-  return function seek(map, targets, enemies, callback) {
-    var target = targets[0];
+  function random(num) {
+    return Math.round(Math.random() * num);
+  }
 
+  return function seek(map, targets, enemies, callback) {
     if (!callback) {
       callback = defaultCallback;
     }
@@ -39,10 +41,14 @@ define(function(require, exports, module) {
     easystar.enableDiagonals();
 
     var interval = setInterval(function(){
-      var currentPlayerXtile = map.tileX(target.body.position.x);
-      var currentPlayerYtile = map.tileY(target.body.position.y);
 
       enemies.forEachAlive(function(enemy) {
+        if (!enemy.target) {
+          enemy.target = targets[random(targets.length - 1)];
+        }
+
+        var currentPlayerXtile = map.tileX(enemy.target.body.position.x);
+        var currentPlayerYtile = map.tileY(enemy.target.body.position.y);
         var currentCowboyXtile = map.tileX(enemy.body.position.x);
         var currentCowboyYtile = map.tileY(enemy.body.position.y);
 

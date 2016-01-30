@@ -26,6 +26,7 @@ define(function(require, exports, module) {
         var cursors;
 
         var fpsText;
+        var inputsText;
 
         function create() {
             game.time.advancedTiming = true;
@@ -47,6 +48,8 @@ define(function(require, exports, module) {
                 fontSize: '16px',
                 fill: '#abc'
             });
+
+            inputsText = game.add.text(1, 36);
         }
 
         function preload() {
@@ -64,11 +67,12 @@ define(function(require, exports, module) {
                 cow.animations.stop(null, true);
                 cow.body.velocity.x = 0;
             }
+
             fpsText.text = 'FPS: ' + game.time.fps;
+            inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
         }
 
         function render() {
-            game.debug.text(_.keys(KeysManager.getPressedKeys()));
         }
 
         return game;

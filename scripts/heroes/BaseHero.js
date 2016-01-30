@@ -5,7 +5,7 @@ define(function(require, exports, module) {
     var EventEmitter = require('EventEmitter');
 
     var debug = require('debug')('jar:heroes:base');
-    var Settings = require('Settings');
+    var Settings = require('settings');
 
     function BaseHero(game, type, inputs) {
         EventEmitter.call(this);
@@ -44,7 +44,6 @@ define(function(require, exports, module) {
 
         this.initSprite = function initSprite() {
             this.sprite.anchor.setTo(.5, .5);
-            console.log(2222)
             this.sprite.body.setSize(60, 25, 0, 60);
         };
 

@@ -25,7 +25,7 @@ define(function(require, exports, module) {
         game.physics.enable(creep, Phaser.Physics.ARCADE);
 
         // creep collision area
-        creep.body.setSize(60, 30, 0, 80);
+        creep.body.setSize(50, 25, 0, 65);
 
         creep.checkWorldBounds = true;
         creep.outOfBoundsKill = true;
@@ -48,7 +48,7 @@ define(function(require, exports, module) {
             } else if (some > 0.33) {
                 x = Math.round(globals.windowWidth / 2) - Math.round(creep.body.width / 2)
             } else {
-                x = 0;
+                x = creep.body.width;
             }
             creep.reset(x, creep.body.height);
             //calculate direction
@@ -67,10 +67,8 @@ define(function(require, exports, module) {
                 creep.body.enable = false;
                 creep.dead = true;
                 if (creep.type == CreepTypes.BLUE) {
-                    console.log(11111111)
                     creep.animations.play('die-blue'); // animation is set to kill it at the end
                 } else {
-                    console.log(2222222222)
                     creep.animations.play('die-red'); // animation is set to kill it at the end
                 }
 

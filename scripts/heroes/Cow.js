@@ -80,6 +80,7 @@ define(function(require, exports, module) {
         this.initSprite = function initSprite() {
             this.sprite.anchor.setTo(.62, .95);
             this.hitSprite.anchor.setTo(.5,.65);
+            this.sprite.body.setSize(55, 25, 5, 10);
         };
 
         this.stop = function stop() {

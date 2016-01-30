@@ -9,9 +9,14 @@ require.config({
         'Game'              : 'game',
         'creeps'         : 'creeps',
 
+        'easystar'       : 'libs/easystar',
+
         // libs
         'lodash'            : 'libs/lodash.min',
         'EventEmitter'      : 'libs/EventEmitter',
+        'seek'              : 'seek',
+        'map'               : 'map',
+        'defaultMap'        : 'defaultMap',
 
         'debug'             : 'libs/debug',
         'KeysManager'       : 'inputs/KeysManager',

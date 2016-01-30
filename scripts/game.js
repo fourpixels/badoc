@@ -5,6 +5,7 @@ define(function(require, exports, module) {
     var Settings = require('settings');
     var Creeps = require('creeps');
     var map = require('defaultMap')();
+    var seek = require('seek');
     var KeysManager = require('KeysManager');
 
     var Cow = require('Cow');
@@ -116,6 +117,7 @@ define(function(require, exports, module) {
 
             ui = new UIManager(game);
 
+            seek(map, cow.hitSprite, creepsGroup);
             //inputsText = game.add.text(1, 36);
         }
 

@@ -52,7 +52,6 @@ define(function(require, exports, module) {
             }
             creep.reset(x, creep.body.height);
             //calculate direction
-            creep.body.velocity.y = 60;
             if (creep.type == CreepTypes.BLUE) {
                 creep.animations.play('move-blue');
             } else {
@@ -83,8 +82,6 @@ define(function(require, exports, module) {
         };
 
         creep.attack = function() {
-            creep.body.velocity.x = 0;
-            creep.body.velocity.y = 0;
             creep.animations.play('attack');
         }
 

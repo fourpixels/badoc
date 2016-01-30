@@ -10,7 +10,7 @@ define(function(require, exports, module) {
         this.maxLifes = Settings.TOTEM.maxHits;
         this.currentLife = this.maxLifes;
 
-        this.sprite = game.add.sprite(globals.windowWidth / 2 - 134 / 2, globals.windowHeight - 326, 'totem');
+        this.sprite = game.add.sprite(Settings.TOTEM.startX, Settings.TOTEM.startY, 'totem');
         game.physics.arcade.enable(this.sprite);
         this.sprite.body.immovable = true;
         this.sprite.anchor.setTo(.5, .9);
@@ -28,8 +28,7 @@ define(function(require, exports, module) {
                 if (--this.currentLife < 0) {
                     console.log("GAME OVER")
                 }
-                this.sprite.animations.play('hit');
-                this.sprite.animations.currentAnim.onComplete.add(function() {
+                this.sprite.animations.play('hit').onComplete.add(function() {
                     self.sprite.animations.play('regular');
                     self.takingDamage = false;
                 });

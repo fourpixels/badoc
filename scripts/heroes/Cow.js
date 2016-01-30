@@ -4,6 +4,7 @@
 define(function(require, exports, module) {
 
     var BaseHero = require('BaseHero');
+    var Settings = require('settings');
 
     function Cow(game, inputs) {
         BaseHero.call(this, game, 'cow', inputs);
@@ -46,6 +47,14 @@ define(function(require, exports, module) {
         this.executeA = function executeA() {
             _this.hitSprite.alpha = .72;
             this.hitSprite.body.enable = true;
+
+            this.sprite.animations.play('hit-' + this.cowColor).onComplete.add(function(){
+                if (_this.moving) {
+                    _this.walk();
+                } else {
+                    _this.stop();
+                }
+            });
             _this.emit('action:a');
         };
 
@@ -81,10 +90,13 @@ define(function(require, exports, module) {
             this.sprite.animations.add('idle-blue', [0], 12, false);
             this.sprite.animations.add('move-red', [10,11,12,13,14,15,16,17], 12, true);
             this.sprite.animations.add('move-blue', [1,2,3,4,5,6,7,8], 12, true);
+            this.sprite.animations.add('hit-blue', [18, 19, 20, 21, 22, 23, 24], 16, false);
+            this.sprite.animations.add('hit-red', [25, 26, 27, 28, 29, 30, 31], 16, false);
         };
 
         this.initSprite = function initSprite() {
-            this.sprite.anchor.setTo(.62, .95);
+            this.sprite.reset(Settings.COW.startX, Settings.COW.startY);
+            this.sprite.anchor.setTo(.45, .95);
             this.hitSprite.anchor.setTo(.5,.65);
             this.sprite.body.setSize(55, 25, 5, 10);
         };

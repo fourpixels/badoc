@@ -4,6 +4,7 @@
 define(function(require, exports, module) {
 
     var BaseHero = require('BaseHero');
+    var Settings = require('settings');
 
     function Mouse(game, inputs) {
         BaseHero.call(this, game, 'mouse', inputs);
@@ -24,6 +25,7 @@ define(function(require, exports, module) {
 
 
         this.initSprite = function initSprite() {
+            this.sprite.reset(Settings.MOUSE.startX, Settings.MOUSE.startY);
             this.sprite.anchor.setTo(.62, .95);
             this.sprite.body.setSize(50, 25, 5, 5);
         };

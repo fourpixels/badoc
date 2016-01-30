@@ -8,6 +8,7 @@ define(function(require, exports, module) {
 
     var Cow = require('Cow');
     var Mouse = require('Mouse');
+    var jellyBeans;
     var HeroInputs = require('HeroInputs');
     var KeyMap = require('KeyMap');
 
@@ -32,8 +33,6 @@ define(function(require, exports, module) {
 
         var cow;
         var mouse;
-
-        var cursors;
 
         var fpsText;
         var inputsText;
@@ -76,16 +75,9 @@ define(function(require, exports, module) {
                 cow.setInputs(mouseInputs);
             });
 
-            //var cow2 = game.add.sprite(Settings.COW.startX, Settings.COW.startY, 'hero-test');
-            //cow2.animations.add('swim', Phaser.Animation.generateFrameNames('Cow Standing instance', 0, 32, '', 4), 30, true);
-            //cow2.animations.play('swim');
-            //cow2.animations.add('left', [3, 4, 5], 10, true);
-            //cow2.animations.add('right', [6, 7, 8], 10, true);
-
-            cursors = game.input.keyboard.createCursorKeys();
-
             var creepsGroup = Creeps.init(game);
-            renderable.add(cow);
+            renderable.add(cow.sprite);
+            renderable.add(mouse.sprite);
             renderable.add(creepsGroup);
 
             fpsText = game.add.text(16, 16, 'FPS: 0', {
@@ -93,42 +85,49 @@ define(function(require, exports, module) {
                 fill: '#abc'
             });
 
+            jellyBeans = game.add.group();
+            jellyBeans.enableBody = true;
+
             inputsText = game.add.text(1, 36);
         }
 
         function preload() {
             game.load.spritesheet('hero-cow', 'assets/cow.png', Settings.COW.width, Settings.COW.height);
-            game.load.spritesheet('hero-mouse', 'assets/mouse.png', Settings.COW.width, Settings.COW.height);
-
-            game.load.spritesheet('creepRed', 'assets/dummy_creep_red.png', 34, 34);
-            game.load.spritesheet('creepYellow', 'assets/dummy_creep_yellow.png', 34, 34);
-
-            //game.load.spritesheet('hero-cow', 'assets/dummy_creep_red.png', 34, 34);
-            //game.load.spritesheet('hero-mouse', 'assets/dummy_creep_yellow.png', 34, 34);
+            game.load.spritesheet('hero-mouse', 'assets/mouse.png', 100, 138);
+            game.load.spritesheet('creep', 'assets/creep.png', 126, 150);
+            game.load.image('jellyBean', 'assets/dummy_jellyBean.png');
         }
-        var lookingRight = true; //what is the default?
-        function update() {
 
+        function update() {
             var timeSinceLastUpdate = game.time.elapsed;
             Creeps.update(timeSinceLastUpdate);
 
             renderable.sort('y', Phaser.Group.SORT_ASCENDING);
 
-            if (!
-
             fpsText.text = 'FPS: ' + game.time.fps;
 
-            game.physics.arcade.collide(cow, Creeps.group, function(cow, creep) {
-                creep.attack();
-                //creep.die();
-            });
-            Creeps.group.forEach(function(creep) {
-                game.debug.body(creep);
+            game.physics.arcade.collide(cow.sprite, Creeps.group, function(cow, creep) {
+                //creep.attack();
+                creep.die(function(coordinates) {
+                    jellyBeans.create(coordinates.x, coordinates.y, 'jellyBean');
+                });
             });
 
-            game.debug.body(cow);
+            game.physics.arcade.overlap(mouse.sprite, jellyBeans, collectJellyBean, null, this);
+            // collission debugging
+            //Creeps.group.forEachAlive(function(creep) {
+            //    game.debug.body(creep);
+            //});
+            //game.debug.body(mouse.sprite);
+            //game.debug.body(cow.sprite);
             inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
         }
+
+        function collectJellyBean(mouse, jellyBean) {
+            jellyBean.kill();
+            //mouse.increaseStamina();
+            // mouse add power
+        };
 
         function render() {
         }

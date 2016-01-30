@@ -14,8 +14,8 @@
 })('Settings', function () {
     return {
         COW: {
-            width: 100,
-            height: 138,
+            width: 139,
+            height: 192,
             startX: 350,
             startY: 250,
             velocity: 150

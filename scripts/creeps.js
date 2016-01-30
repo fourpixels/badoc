@@ -1,11 +1,10 @@
 define(function(require, exports, module) {
     var CreepTypes = {
-        GREEN: 1,
-        RED: 2,
-        BLUE: 3
+        RED: 1,
+        BLUE: 2
     };
     var _ = require('lodash');
-    var MAX_CREEPS = 30;
+    var MAX_CREEPS = 10;
 
     var Creeps = {};
     var timeSinceLastCreep = 0;
@@ -14,32 +13,33 @@ define(function(require, exports, module) {
 
     function Creep(game) {
         gameRef = game; // YES , THIS IS BAD
-        var image = 'creepYellow';
+        var creep;
+        creep = game.add.sprite(0, 0, 'creep');
+        creep.anchor.setTo(.5, .5);
         if (Math.random() < 0.5) {
-            image = 'creepRed';
+            creep.type = CreepTypes.RED;
+        } else {
+            creep.type = CreepTypes.BLUE;
         }
-        var creep = game.add.sprite(0, 0, image);
         //var creep = game.add.sprite(Math.round(Math.random() * globals.windowWidth),Math.round(Math.random() * globals.windowHeight), image);
         game.physics.enable(creep, Phaser.Physics.ARCADE);
-        creep.height = 60;
+
+        // creep collision area
+        creep.body.setSize(60, 30, 0, 80);
 
         creep.checkWorldBounds = true;
         creep.outOfBoundsKill = true;
 
         // creep animations
-        creep.animations.add('down', [0, 1, 2], 10, true);
-        creep.animations.add('left', [3, 4, 5], 10, true);
-        creep.animations.add('right', [6, 7, 8], 10, true);
-        creep.animations.add('up', [9, 10, 11], 10, true);
-        creep.animations.add('attack', [9, 10, 11], 10, true);
-        creep.animations.add('die', [6, 7, 8], 10, false).killOnComplete = true;
-
-        // creep collision area
-        creep.body.setSize(32, 15, 0, 50);
+        creep.animations.add('move-blue', [0, 1, 2, 3, 4, 5, 6, 7], 12, true);
+        creep.animations.add('die-blue', [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23], 12, false).killOnComplete = true;
+        creep.animations.add('move-red', [24, 25, 26, 27, 28, 29, 30, 31], 12, true);
+        creep.animations.add('die-red', [32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47], 12, false).killOnComplete = true;
 
         creep.spawn = function() {
             creep.revive();
-            gameRef.add.tween(creep).from({alpha: 0}, 4000, Phaser.Easing.Linear.None, true, 0);
+            creep.dead = false;
+            //gameRef.add.tween(creep).from({alpha: 0}, 4000, Phaser.Easing.Linear.None, true, 0);
             var some = Math.random();
             var x = 0
             if (some > 0.67) {
@@ -52,11 +52,34 @@ define(function(require, exports, module) {
             creep.reset(x, creep.body.height);
             //calculate direction
             creep.body.velocity.y = 60;
-            creep.animations.play('down');
+            if (creep.type == CreepTypes.BLUE) {
+                creep.animations.play('move-blue');
+            } else {
+                creep.animations.play('move-red');
+            }
         }
 
-        creep.die = function() {
-            creep.animations.play('die'); // animation is set to kill it at the end
+        // kill creep and return death coordinates
+        // callback to put a jelly bean at given coordinates
+        creep.die = function(callback) {
+            if (!creep.dead) {
+                creep.dead = true;
+                if (creep.type == CreepTypes.BLUE) {
+                    console.log(11111111)
+                    creep.animations.play('die-blue'); // animation is set to kill it at the end
+                } else {
+                    console.log(2222222222)
+                    creep.animations.play('die-red'); // animation is set to kill it at the end
+                }
+
+                creep.animations.currentAnim.onComplete.add(function() {
+                    var coordinates = {
+                        x: creep.body.x,
+                        y: creep.body.y
+                    };
+                    callback(coordinates);
+                });
+            }
         };
 
         creep.attack = function() {

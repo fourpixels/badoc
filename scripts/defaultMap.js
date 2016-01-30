@@ -36,7 +36,7 @@ define(function(require, exports, module) {
   ];
 
   var defaultOptions = {
-    tileSize: 100,
+    tileSize: 70,
     tiles: MAP,
     groundTypes: 6,
     obsticlesTypes: 4,

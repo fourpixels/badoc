@@ -67,7 +67,7 @@ define(function(require, exports, module) {
         return enemy;
       }, this);
 
-      seek(this.map, this.player, this.enemiesGroup);
+      seek(this.map, [this.player], this.enemiesGroup);
     },
     update: function () {
       applyDirection(this.player, 100);

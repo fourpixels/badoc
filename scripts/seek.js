@@ -24,7 +24,9 @@ define(function(require, exports, module) {
     applyDirection(enemy, direction, 90);
   }
 
-  return function seek(map, target, enemies, callback) {
+  return function seek(map, targets, enemies, callback) {
+    var target = targets[0];
+
     if (!callback) {
       callback = defaultCallback;
     }

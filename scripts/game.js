@@ -102,13 +102,9 @@ define(function(require, exports, module) {
             noCollide.add(cow.sprite);
             noCollide.add(mouse.sprite);
 
-            //totem = new Totem(game);
-            //totem.init(game);
-            totem = game.add.sprite(globals.windowWidth / 2 - 134 / 2, globals.windowHeight - 326, 'totem');
-            totem.animations.add('regular', [0, 1, 2, 3, 4, 5, 6], 12, true);
-            totem.animations.play('regular');
+            totem = new Totem(game);
 
-            noCollide.add(totem);
+            noCollide.add(totem.sprite);
 
             //var cow2 = game.add.sprite(Settings.COW.startX, Settings.COW.startY, 'hero-test');
             //cow2.animations.add('swim', Phaser.Animation.generateFrameNames('Cow Standing instance', 0, 32, '', 4), 30, true);
@@ -173,6 +169,8 @@ define(function(require, exports, module) {
 
             game.physics.arcade.overlap(mouse.sprite, jellyBeans, collectJellyBean, null, this);
 
+            game.physics.arcade.overlap(totem.sprite, Creeps.group, totemTakeDamage, null, this);
+
             this.game.physics.arcade.collide(noCollide);
 
             // collission debugging
@@ -181,6 +179,7 @@ define(function(require, exports, module) {
             //});
             //game.debug.body(mouse.sprite);
             //game.debug.body(cow.sprite);
+            //game.debug.body(totem.sprite);
             //inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
         }
 
@@ -188,6 +187,11 @@ define(function(require, exports, module) {
             jellyBean.kill();
             mouse.increaseStamina(20);
         };
+
+        function totemTakeDamage(totemSprite, creep) {
+            totem.takeDamage();
+            // creeep animate hit
+        }
 
         function render() {
         }

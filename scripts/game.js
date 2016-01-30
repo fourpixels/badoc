@@ -126,7 +126,7 @@ define(function(require, exports, module) {
 
             ui = new UIManager(game);
 
-            seek(map, [cow.sprite], creepsGroup);
+            seek(map, [cow.sprite, mouse.sprite], creepsGroup);
             //inputsText = game.add.text(1, 36);
         }
 

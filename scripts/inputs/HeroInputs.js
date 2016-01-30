@@ -23,10 +23,10 @@ define(function(require, exports, module) {
             }
         }
 
-        this.up.onDown.add(dispatch('up'));
+        /*this.up.onDown.add(dispatch('up'));
         this.down.onDown.add(dispatch('down'));
         this.left.onDown.add(dispatch('left'));
-        this.right.onDown.add(dispatch('right'));
+        this.right.onDown.add(dispatch('right'));*/
         this.a.onDown.add(dispatch('a'));
         this.b.onDown.add(dispatch('b'));
     }

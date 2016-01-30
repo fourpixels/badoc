@@ -65,16 +65,18 @@ define(function(require, exports, module) {
         }
 
         function preload() {
-            game.load.spritesheet('cow', 'assets/cow.png', Settings.COW.width, Settings.COW.height);
+            game.load.spritesheet('hero-cow', 'assets/cow.png', Settings.COW.width, Settings.COW.height);
+            game.load.spritesheet('hero-mouse', 'assets/cow.png', Settings.COW.width, Settings.COW.height);
+
             game.load.spritesheet('creepRed', 'assets/dummy_creep_red.png', 34, 34);
             game.load.spritesheet('creepYellow', 'assets/dummy_creep_yellow.png', 34, 34);
 
-            game.load.spritesheet('hero-cow', 'assets/dummy_creep_red.png', 34, 34);
-            game.load.spritesheet('hero-mouse', 'assets/dummy_creep_yellow.png', 34, 34);
+            //game.load.spritesheet('hero-cow', 'assets/dummy_creep_red.png', 34, 34);
+            //game.load.spritesheet('hero-mouse', 'assets/dummy_creep_yellow.png', 34, 34);
         }
         var lookingRight = true; //what is the default?
         function update() {
-            var moving = false;
+            /*var moving = false;
             if (cursors.left.isDown) {
                 moving = true;
                 if (lookingRight) {
@@ -109,7 +111,7 @@ define(function(require, exports, module) {
                 cow.animations.stop(null, true);
             } else {
                 cow.animations.play('right');
-            }
+            }*/
 
             fpsText.text = 'FPS: ' + game.time.fps;
 

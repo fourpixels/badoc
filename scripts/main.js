@@ -6,17 +6,17 @@ require.config({
         'domReady'       : 'libs/domReady',
         'phaser'         : 'libs/phaser.min',
         'settings'       : 'settings',
-        'game'           : 'game'
+        'Game'           : 'game'
     },
     config: {
 
     },
     deps: ['jquery', 'phaser', 'settings', 'domReady'],
     callback: function(domReady) {
-        require(['game'], function(game) {
+        require(['game'], function(Game) {
             domReady(function() {
                 console.info("DOM READY");
-                game();
+                var game = new Game();
             });
         })
     }

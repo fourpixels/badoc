@@ -1,14 +1,15 @@
 define(function(require, exports, module) {
   var seek = require('seek');
-  var map = require('map')();
+  var buildMap = require('map');
 
   var Demo = function (game) {
     this.game = game;
+    this.map = buildMap();
   };
 
   Demo.prototype = {
     preload: function () {
-      map.loadFrom(this.game);
+      this.map.loadFrom(this.game);
 
       this.game.load.image('E', 'assets/test/controls/E.png');
       this.game.load.image('N', 'assets/test/controls/N.png');
@@ -23,10 +24,10 @@ define(function(require, exports, module) {
       this.game.load.spritesheet('creep','assets/test/enemy.png');
 
       this.game.time.advancedTiming = true;
-      this.game.world.setBounds(0, 0, map.pointWidth(), map.pointHeight());
+      this.game.world.setBounds(0, 0, this.map.pointWidth(), this.map.pointHeight());
     },
     create: function () {
-      this.obstacleGroup = map.buildGroupsFor(this.game);
+      this.obstacleGroup = this.map.buildGroupsFor(this.game);
 
       var controls = this.game.add.group();
 
@@ -51,7 +52,7 @@ define(function(require, exports, module) {
       this.game.camera.follow(this.player);
 
       this.enemies = [[6, 10], [10, 2]].map(function(tile) {
-        var enemy = this.game.add.sprite(map.pointX(tile[0]), map.pointY(tile[1]), 'creep');
+        var enemy = this.game.add.sprite(this.map.pointX(tile[0]), this.map.pointY(tile[1]), 'creep');
 
         this.obstacleGroup.add(enemy);
 
@@ -64,7 +65,7 @@ define(function(require, exports, module) {
         return enemy;
       }, this);
 
-      seek(map, this.player, this.enemies);
+      seek(this.map, this.player, this.enemies);
     },
     update: function () {
       applyDirection(this.player, 100);

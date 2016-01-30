@@ -1,6 +1,8 @@
 define(function(require, exports, module) {
 
-    var Settings = require('settings')
+    var _ = require('lodash');
+    var Settings = require('settings');
+    var KeysManager = require('KeysManager');
 
     var Game = function Game() {
         var width = window.innerWidth
@@ -12,21 +14,20 @@ define(function(require, exports, module) {
             || document.body.clientHeight;
 
 
-        var game = new Phaser.Game(width, height, Phaser.AUTO, '', {
-            preload: preloadGame,
-            create: createGame,
-            update: update
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
+            create: create,
+            preload: preload,
+            update: update,
+            render: render
         });
 
         var cow;
         var cursors;
 
-        function preloadGame() {
-            game.load.spritesheet('cow', 'assets/dummy_cow.png', Settings.COW.width, Settings.COW.height);
-        }
-
-        function createGame() {
+        function create() {
             game.physics.startSystem(Phaser.Physics.ARCADE);
+
+            game.stage.backgroundColor = '#2d2d2d';
 
             cow = game.add.sprite(Settings.COW.startX, Settings.COW.startY, 'cow');
             cow.anchor.setTo(0.5, 0.5);
@@ -35,6 +36,10 @@ define(function(require, exports, module) {
             cow.animations.add('right', [6, 7, 8], 10, true);
 
             cursors = game.input.keyboard.createCursorKeys();
+        }
+
+        function preload() {
+            game.load.spritesheet('cow', 'assets/dummy_cow.png', Settings.COW.width, Settings.COW.height);
         }
 
         function update() {
@@ -48,6 +53,10 @@ define(function(require, exports, module) {
                 cow.animations.stop(null, true);
                 cow.body.velocity.x = 0;
             }
+        }
+
+        function render() {
+            game.debug.text(_.keys(KeysManager.getPressedKeys()));
         }
 
         return game;

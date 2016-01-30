@@ -5,6 +5,7 @@ define(function(require, exports, module) {
     var Settings = require('settings');
     var Creeps = require('creeps');
     var map = require('defaultMap')();
+    var seek = require('seek');
     var KeysManager = require('KeysManager');
 
     var Cow = require('Cow');
@@ -44,10 +45,10 @@ define(function(require, exports, module) {
         var fpsText;
         var renderable;
         //var inputsText;
-        var obstacleGroup;
+        var noCollide;
 
         function create() {
-            obstacleGroup = map.buildGroupsFor(game);
+            noCollide = map.buildGroupsFor(game);
             renderable = game.add.group();
 
 
@@ -96,6 +97,10 @@ define(function(require, exports, module) {
             renderable.add(cow.sprite);
             renderable.add(mouse.sprite);
             renderable.add(creepsGroup);
+
+            noCollide.add(cow.sprite);
+            noCollide.add(mouse.sprite);
+
             totem = game.add.sprite(globals.windowWidth / 2 - 134 / 2, globals.windowHeight - 326, 'totem');
             totem.animations.add('regular', [0, 1, 2, 3, 4, 5, 6], 12, true);
             totem.animations.play('regular');
@@ -116,6 +121,7 @@ define(function(require, exports, module) {
 
             ui = new UIManager(game);
 
+            seek(map, cow.hitSprite, creepsGroup);
             //inputsText = game.add.text(1, 36);
         }
 
@@ -142,7 +148,7 @@ define(function(require, exports, module) {
 
             fpsText.text = 'FPS: ' + game.time.fps;
 
-            game.physics.arcade.collide(cow.sprite, Creeps.group, function(cow, creep) {
+            game.physics.arcade.collide(cow.hitSprite, Creeps.group, function(cow, creep) {
                 //creep.attack();
                 creep.die(function(coordinates) {
                     jellyBeans.create(coordinates.x, coordinates.y, 'jellyBean');
@@ -150,6 +156,9 @@ define(function(require, exports, module) {
             });
 
             game.physics.arcade.overlap(mouse.sprite, jellyBeans, collectJellyBean, null, this);
+
+            this.game.physics.arcade.collide(noCollide);
+
             // collission debugging
             //Creeps.group.forEachAlive(function(creep) {
             //    game.debug.body(creep);

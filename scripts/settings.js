@@ -43,6 +43,7 @@
         TOTEM: {
             width: 134,
             height: 326,
+            maxHits: 10
         }
     };
 });

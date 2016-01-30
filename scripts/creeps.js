@@ -39,6 +39,7 @@ define(function(require, exports, module) {
         creep.spawn = function() {
             creep.revive();
             creep.dead = false;
+            creep.body.enable = true;
             //gameRef.add.tween(creep).from({alpha: 0}, 4000, Phaser.Easing.Linear.None, true, 0);
             var some = Math.random();
             var x = 0
@@ -51,7 +52,6 @@ define(function(require, exports, module) {
             }
             creep.reset(x, creep.body.height);
             //calculate direction
-            creep.body.velocity.y = 60;
             if (creep.type == CreepTypes.BLUE) {
                 creep.animations.play('move-blue');
             } else {
@@ -63,6 +63,7 @@ define(function(require, exports, module) {
         // callback to put a jelly bean at given coordinates
         creep.die = function(callback) {
             if (!creep.dead) {
+                creep.body.enable = false;
                 creep.dead = true;
                 if (creep.type == CreepTypes.BLUE) {
                     creep.animations.play('die-blue'); // animation is set to kill it at the end
@@ -81,8 +82,6 @@ define(function(require, exports, module) {
         };
 
         creep.attack = function() {
-            creep.body.velocity.x = 0;
-            creep.body.velocity.y = 0;
             creep.animations.play('attack');
         }
 

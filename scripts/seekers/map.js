@@ -39,17 +39,18 @@ define(function(require, exports, module) {
   function Map() {
     this.tileSize = 100;
     this.tiles = MAP;
-    this.size = MAP.length;
     this.groundTypes = 6;
     this.obsticlesTypes = 4;
+    this.sizeWidth = this.tiles.length;
+    this.sizeHeight = (this.tiles[0] || []).length;
   }
 
   Map.prototype.pointWidth = function() {
-    return this.size * this.tileSize;
+    return this.sizeWidth * this.tileSize;
   }
 
   Map.prototype.pointHeight = function() {
-    return this.size * this.tileSize;
+    return this.sizeHeight * this.tileSize;
   }
 
   Map.prototype.pointY = function(tileX) {
@@ -64,7 +65,7 @@ define(function(require, exports, module) {
     position = Math.floor(x / this.tileSize);
 
     if (position < 0) return 0;
-    if (position > this.size) return this.size - 1;
+    if (position > this.sizeWidth) return this.sizeWidth - 1;
 
     return position;
   }
@@ -73,7 +74,7 @@ define(function(require, exports, module) {
     position = Math.floor(y / this.tileSize);
 
     if (position < 0) return 0;
-    if (position >= this.size) return this.size - 1;
+    if (position >= this.sizeHeight) return this.sizeHeight - 1;
 
     return position;
   }
@@ -92,9 +93,9 @@ define(function(require, exports, module) {
     var floorGroup = game.add.group();
     var obstacleGroup = game.add.group();
 
-    for (var yt = 0; yt < this.size; yt++) {
+    for (var yt = 0; yt < this.sizeWidth; yt++) {
       var tile = this.tiles[yt];
-      for (var xt = 0; xt < this.size; xt++) {
+      for (var xt = 0; xt < this.sizeHeight; xt++) {
         var floorTile = game.add.sprite(this.pointX(xt), this.pointY(yt), 'ground_' + random(this.groundTypes - 1));
         floorGroup.add(floorTile);
 

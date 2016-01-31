@@ -63,5 +63,7 @@ require.config({
               globals.game = game;
             });
         })
-    }
+    },
+    waitSeconds: 60
+
 });

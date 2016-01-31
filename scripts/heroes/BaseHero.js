@@ -44,7 +44,7 @@ define(function(require, exports, module) {
         };
 
         this.initSprite = function initSprite() {
-            this.sprite.anchor.setTo(.5, .5);
+            this.sprite.anchor.setTo(.66, .5);
         };
 
         this.initAnimations = function initAnimations() {

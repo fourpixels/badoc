@@ -1,6 +1,9 @@
 define(function(require, exports, module) {
   var EasyStar = require('easystar');
 
+  var TIMEOUT_TIME = 400;
+  var ENEMY_SPEED = 90;
+
   var DIRECTIONS = {
     N:    {x: -1, y: -1},
     S:    {x:  1, y:  1},
@@ -21,7 +24,7 @@ define(function(require, exports, module) {
   }
 
   function defaultCallback(enemy, direction) {
-    applyDirection(enemy, direction, 90);
+    applyDirection(enemy, direction, ENEMY_SPEED);
   }
 
   function random(num) {
@@ -97,7 +100,7 @@ define(function(require, exports, module) {
       });
 
       easystar.calculate();
-    }, 200);
+    }, TIMEOUT_TIME);
 
     return function() {
       if (interval) {

@@ -8,13 +8,16 @@ define(function(require, exports, module) {
         var cowBar;
         var mouseBar;
 
-        if (game.cow)
-            cowBar = new Bar(120, 70, game.cow);
-        if (game.mouse)
-            mouseBar = new Bar(560, 70, game.mouse);
+        var wH = globals.windowHeight;
+        var wW = globals.windowWidth;
 
-        var avatarCow = game.add.image(10, 10, 'avatar-cow');
-        var avatarMouse = game.add.image(440, 10, 'avatar-mouse');
+        if (game.cow)
+            cowBar = new Bar(120, wH - 40, game.cow);
+        if (game.mouse)
+            mouseBar = new Bar(wW - 143 - 300, wH - 40, game.mouse);
+
+        var avatarCow = game.add.image(10, wH - 160, 'avatar-cow');
+        var avatarMouse = game.add.image(wW - 143, wH - 160, 'avatar-mouse');
 
         function Bar(x, y, hero) {
             var bgr = game.add.image(x, y, 'stamina-bar-bgr');

@@ -115,13 +115,13 @@ define(function(require, exports, module) {
         }
     };
 
-    var timeUntilNextCreep = 2500;
+    var timeUntilNextCreep = 3000;
 
     Creeps.update = function(timeElapsed) {
         timeSinceLastCreep += timeElapsed;
         if (timeSinceLastCreep > timeUntilNextCreep) {
-            timeUntilNextCreep -= 50;
-            if (timeUntilNextCreep < 500) timeUntilNextCreep = 500;
+            timeUntilNextCreep -= 10;
+            if (timeUntilNextCreep < 1000) timeUntilNextCreep = 1000;
             Creeps.addCreep();
             timeSinceLastCreep = 0;
         }

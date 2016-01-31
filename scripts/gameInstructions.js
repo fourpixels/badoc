@@ -4,11 +4,13 @@ define(function(require, exports, module) {
   };
 
   GameInstructions.prototype.preload = function() {
+    $('#loader').show();
     this.game.load.image('button', 'assets/ui/buttonRealStart.png');
     this.game.load.image('background','assets/ui/backgroundGameInstructions.png');
   }
 
   GameInstructions.prototype.create = function() {
+    $('#loader').hide();
     var game = this.game;
 
     game.stage.backgroundColor = '#986733';

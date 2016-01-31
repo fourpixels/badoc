@@ -4,12 +4,14 @@ define(function(require, exports, module) {
   };
 
   GameStart.prototype.preload = function() {
+    $('#loader').show();
     this.game.load.image('button', 'assets/ui/buttonStart.png');
     this.game.load.image('instructions', 'assets/ui/buttonInstructions.png');
     this.game.load.image('background','assets/ui/backgroundGameStart.jpg');
   }
 
   GameStart.prototype.create = function() {
+    $('#loader').hide();
     var game = this.game;
 
     game.stage.backgroundColor = '#000000';

@@ -36,7 +36,7 @@ define(function(require, exports, module) {
         game.soulsCollected = 0;
 
         function create() {
-
+            $('#loader').hide();
             Sounds.init(game);
 
             obsticles = map.buildGroupsFor(game);
@@ -125,6 +125,7 @@ define(function(require, exports, module) {
         };
 
         function preload() {
+            $('#loader').show()
             Sounds.load(game);
             map.loadFrom(game);
             game.load.spritesheet('hero-cow', 'assets/cow.png', Settings.COW.width, Settings.COW.height);

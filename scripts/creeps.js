@@ -120,7 +120,7 @@ define(function(require, exports, module) {
     Creeps.update = function(timeElapsed) {
         timeSinceLastCreep += timeElapsed;
         if (timeSinceLastCreep > timeUntilNextCreep) {
-            timeUntilNextCreep -= 10;
+            timeUntilNextCreep -= 100;
             if (timeUntilNextCreep < 1000) timeUntilNextCreep = 1000;
             Creeps.addCreep();
             timeSinceLastCreep = 0;

@@ -22,17 +22,7 @@ define(function(require, exports, module) {
     var buttonX = imageX + 374;
     var buttonY = imageY + 550;
 
-    var button = game.add.button(buttonX, buttonY, 'button', start, this);
-
-    // var instructionsX = imageX + 660;
-    // var instructionsY = imageY + 600;
-
-    // var instructions = game.add.button(instructionsX, instructionsY, 'instructions', showInstructions, this);
-
-  }
-
-  function start() {
-    this.game.state.start('Game');
+    var button = game.add.button(buttonX, buttonY, 'button', showInstructions, this);
   }
 
   function showInstructions() {

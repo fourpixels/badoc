@@ -6,8 +6,8 @@ define(function(require, exports, module) {
     var BaseHero = require('BaseHero');
     var Settings = require('settings');
 
-    function Mouse(game, inputs) {
-        BaseHero.call(this, game, 'mouse', inputs);
+    function Mouse(game, inputs, renderable) {
+        BaseHero.call(this, game, 'mouse', inputs, renderable);
         var _this = this;
 
         /*var _inputA = this.inputA;

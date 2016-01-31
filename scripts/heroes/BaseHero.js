@@ -8,7 +8,7 @@ define(function(require, exports, module) {
     var Settings = require('settings');
     var Sounds = require('Sounds');
 
-    function BaseHero(game, type, inputs) {
+    function BaseHero(game, type, inputs, renderable) {
         EventEmitter.call(this);
         var _this = this;
 
@@ -20,7 +20,7 @@ define(function(require, exports, module) {
         this.maxStamina = this.heroSettings.maxStamina;
         this.stamina = this.maxStamina / 2;
 
-        this.sprite = game.add.sprite(Math.round(Math.random() * 500), Math.round(Math.random() * 500), 'hero-' + type);
+        this.sprite = renderable.create(Math.round(Math.random() * 500), Math.round(Math.random() * 500), 'hero-' + type);
         game.physics.arcade.enable(this.sprite);
         this.sprite.body.collideWorldBounds = true;
 

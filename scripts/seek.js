@@ -26,7 +26,10 @@ define(function(require, exports, module) {
 
     var interval = setInterval(function(){
 
-      enemies.forEachAlive(function(enemy) {
+      enemies.forEach(function(enemy) {
+
+        if (!enemy.alive) return;
+
         if (!enemy.target) {
           enemy.target = targets[random(targets.length - 1)];
         }

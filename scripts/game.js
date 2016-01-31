@@ -53,10 +53,10 @@ define(function(require, exports, module) {
             game.time.advancedTiming = true;
             game.physics.startSystem(Phaser.Physics.ARCADE);
 
-            game.stage.backgroundColor = '#AAAAAA';
+            //game.stage.backgroundColor = '#AAAAAA';
 
-            cow = new Cow(game, new HeroInputs(game, KeyMap.cow));
-            mouse = new Mouse(game, new HeroInputs(game, KeyMap.mouse));
+            cow = new Cow(game, new HeroInputs(game, KeyMap.cow), renderable);
+            mouse = new Mouse(game, new HeroInputs(game, KeyMap.mouse), renderable);
 
             cow.on('action:b', function() {
                 debug('>> COW:B');
@@ -101,28 +101,15 @@ define(function(require, exports, module) {
             game.cow = cow;
             game.mouse = mouse;
 
-            creepsGroup = Creeps.init(game);
-            var beansGroup = Beans.init(game);
+            creepsGroup = Creeps.init(game, renderable);
+            Beans.init(game, renderable);
 
             renderable.add(cow.sprite);
             renderable.add(mouse.sprite);
-            creepsGroup.forEach(function(creep){
-                renderable.add(creep);
-            })
-            beansGroup.forEach(function(bean){
-                renderable.add(bean);
-            })
-            renderable.add(beansGroup);
 
-            totem = new Totem(game);
+            totem = new Totem(game, renderable);
 
             renderable.add(totem.sprite);
-
-            //var cow2 = game.add.sprite(Settings.COW.startX, Settings.COW.startY, 'hero-test');
-            //cow2.animations.add('swim', Phaser.Animation.generateFrameNames('Cow Standing instance', 0, 32, '', 4), 30, true);
-            //cow2.animations.play('swim');
-            //cow2.animations.add('left', [3, 4, 5], 10, true);
-            //cow2.animations.add('right', [6, 7, 8], 10, true);
 
             fpsText = game.add.text(16, 16, 'FPS: 0', {
                 fontSize: '16px',
@@ -143,7 +130,7 @@ define(function(require, exports, module) {
 
             seek(map, [cow.sprite, mouse.sprite, totem.sprite], creepsGroup);
             //inputsText = game.add.text(1, 36);
-        }
+        };
 
         function preload() {
             Sounds.load(game);
@@ -166,7 +153,7 @@ define(function(require, exports, module) {
             game.load.image('avatar-mouse', 'assets/avatar-mouse.png');
 
             game.load.image('cow-hit', 'assets/cow-hit.png');
-        }
+        };
 
         function update() {
             var timeSinceLastUpdate = game.time.elapsed;
@@ -209,7 +196,7 @@ define(function(require, exports, module) {
             //Creeps.group.forEachAlive(function(creep) {
             //    game.debug.body(creep);
             //});
-            //Beans.group.forEachAlive(function(bean) {
+            //Beans.group.forEach(function(bean) {
             //    game.debug.body(bean);
             //});
             //game.debug.body(mouse.sprite);
@@ -222,7 +209,7 @@ define(function(require, exports, module) {
             soulsText.text = 'Souls: ' + game.soulsCollected;
 
             renderable.sort('y', Phaser.Group.SORT_ASCENDING);
-        }
+        };
 
         function collectBean(mouseSprite, bean) {
             bean.collect();
@@ -231,7 +218,7 @@ define(function(require, exports, module) {
 
         function totemTakeDamage(totemSprite, creep) {
             totem.takeDamage();
-            creep.die();
+            //creep.die();
         }
 
         function render() {

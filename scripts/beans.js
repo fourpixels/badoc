@@ -6,8 +6,8 @@ define(function(require, exports, module) {
 
     var gameRef;
 
-    function Bean(game) {
-        var bean = game.add.sprite(0, 0, 'bean');
+    function Bean(game, renderable) {
+        var bean = renderable.create(0, 0, 'bean');
         bean.anchor.setTo(.5, .5);
         game.physics.enable(bean, Phaser.Physics.ARCADE);
         bean.body.setSize(45, 25, 0, 40);
@@ -30,7 +30,7 @@ define(function(require, exports, module) {
                     });
                 }
             });
-        }
+        };
 
         bean.collect = function() {
             bean.alive = false;
@@ -42,22 +42,26 @@ define(function(require, exports, module) {
         return bean;
     }
 
-    Beans.init = function(game) {
+    Beans.init = function(game, renderable) {
         gameRef = game;
-        Beans.group = game.add.group();
+        Beans.group = [];
         Beans.group.enableBody = true;
 
         _.times(Settings.BEAN.maxBeans, function() {
-            Beans.group.add(new Bean(game));
+            var aBean = new Bean(game, renderable);
+            Beans.group.push(aBean);
         });
 
         return Beans.group;
     };
 
     Beans.dropBean = function(x, y) {
-        var bean = Beans.group.getFirstDead();
-        if (bean === null || bean === undefined) return;
-        bean.drop(x, y);
+        Beans.group.forEach(function(bean){
+            if (!bean.alive) {
+                bean.drop(x, y);
+                return false;
+            }
+        })
     };
 
     return Beans;

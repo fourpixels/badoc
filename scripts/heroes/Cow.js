@@ -7,13 +7,13 @@ define(function(require, exports, module) {
     var Settings = require('settings');
     var Sounds = require('Sounds');
 
-    function Cow(game, inputs) {
-        BaseHero.call(this, game, 'cow', inputs);
+    function Cow(game, inputs, renderable) {
+        BaseHero.call(this, game, 'cow', inputs, renderable);
 
         var _this = this;
 
         this.cowColor = 'blue';
-        this.hitSprite = game.add.sprite(this.sprite.x, this.sprite.y, 'cow-hit');
+        this.hitSprite = renderable.create(this.sprite.x, this.sprite.y, 'cow-hit');
         this.hitSprite.alpha = .2;
         game.physics.arcade.enable(this.hitSprite);
         this.hitSprite.body.enable = false;

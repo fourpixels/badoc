@@ -12,11 +12,11 @@ define(function(require, exports, module) {
 
     var gameRef;
 
-    function Creep(game) {
+    function Creep(game, renderable) {
         gameRef = game; // YES , THIS IS BAD
         var creep;
-        creep = game.add.sprite(0, 0, 'creep');
-        creep.anchor.setTo(.5, .5);
+        creep = renderable.create(0, 0, 'creep');
+        creep.anchor.setTo(.5, .9);
         if (Math.random() < 0.5) {
             creep.type = CreepTypes.RED;
         } else {
@@ -26,10 +26,11 @@ define(function(require, exports, module) {
         game.physics.enable(creep, Phaser.Physics.ARCADE);
 
         // creep collision area
-        creep.body.setSize(50, 25, 0, 65);
+        creep.body.setSize(50, 25, 0, 25);
 
         creep.checkWorldBounds = true;
         creep.outOfBoundsKill = true;
+        creep.body.collideWorldBounds = true;
 
         // creep animations
         creep.animations.add('move-blue', [0, 1, 2, 3, 4, 5, 6, 7], 12, true);
@@ -52,6 +53,7 @@ define(function(require, exports, module) {
                 x = creep.body.width;
             }
             creep.reset(x, creep.body.height);
+
             //calculate direction
             if (creep.type == CreepTypes.BLUE) {
                 creep.animations.play('move-blue');
@@ -93,25 +95,26 @@ define(function(require, exports, module) {
         return creep;
     }
 
-    Creeps.init = function(game) {
-        Creeps.group = game.add.group();
-        Creeps.group.enableBody = true;
+    Creeps.init = function(game, renderable) {
+        //Creeps.group = game.add.group(renderable);
+        Creeps.group = []
+        //Creeps.group.enableBody = true;
 
         _.times(Settings.CREEP.maxCreeps, function() {
-            Creeps.group.add(new Creep(game));
+            var aCreep = new Creep(game, renderable);
+            Creeps.group.push(aCreep);
         });
 
         return Creeps.group;
     };
 
     Creeps.addCreep = function() {
-        var creep = Creeps.group.getFirstDead();
-        if (creep === null || creep === undefined) return;
-        creep.spawn();
-    };
-
-    Creeps.move = function() {
-
+        Creeps.group.forEach(function(creep){
+            if (!creep.alive) {
+                creep.spawn();
+                return false;
+            }
+        })
     };
 
     var timeUntilNextCreep = 2500;
@@ -119,8 +122,8 @@ define(function(require, exports, module) {
     Creeps.update = function(timeElapsed) {
         timeSinceLastCreep += timeElapsed;
         if (timeSinceLastCreep > timeUntilNextCreep) {
-            timeUntilNextCreep -= 100;
-            if (timeUntilNextCreep <300) timeUntilNextCreep = 300;
+            timeUntilNextCreep -= 50;
+            if (timeUntilNextCreep < 500) timeUntilNextCreep = 500;
             Creeps.addCreep();
             //Creeps.group.sort('y', Phaser.Group.SORT_ASCENDING);
             timeSinceLastCreep = 0;

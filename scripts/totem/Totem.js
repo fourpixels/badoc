@@ -5,12 +5,12 @@ define(function(require, exports, module) {
 
     var Settings = require('settings');
 
-    function Totem(game) {
+    function Totem(game, renderable) {
         var self = this;
         this.maxLifes = Settings.TOTEM.maxHits;
         this.currentLife = this.maxLifes;
 
-        this.sprite = game.add.sprite(Settings.TOTEM.startX, Settings.TOTEM.startY, 'totem');
+        this.sprite = renderable.create(Settings.TOTEM.startX, Settings.TOTEM.startY, 'totem');
         game.physics.arcade.enable(this.sprite);
         this.sprite.body.immovable = true;
         this.sprite.anchor.setTo(.5, .9);

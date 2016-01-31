@@ -37,7 +37,8 @@ define(function(require, exports, module) {
         var fpsText, timeText, soulsText;
         var renderable;
         //var inputsText;
-        var noCollide;
+        var obsticles;
+        var creepsGroup;
 
         game.soulsCollected = 0;
 
@@ -45,7 +46,7 @@ define(function(require, exports, module) {
 
             Sounds.init(game);
 
-            noCollide = map.buildGroupsFor(game);
+            obsticles = map.buildGroupsFor(game);
             renderable = game.add.group();
 
             game.time.advancedTiming = true;
@@ -89,18 +90,14 @@ define(function(require, exports, module) {
             game.cow = cow;
             game.mouse = mouse;
 
-            var creepsGroup = Creeps.init(game);
+            creepsGroup = Creeps.init(game);
             renderable.add(cow.sprite);
             renderable.add(mouse.sprite);
             //renderable.add(creepsGroup);
 
-            noCollide.add(cow.sprite);
-            noCollide.add(mouse.sprite);
-
             totem = new Totem(game);
 
             renderable.add(totem.sprite);
-            noCollide.add(totem.sprite);
 
             //var cow2 = game.add.sprite(Settings.COW.startX, Settings.COW.startY, 'hero-test');
             //cow2.animations.add('swim', Phaser.Animation.generateFrameNames('Cow Standing instance', 0, 32, '', 4), 30, true);
@@ -177,7 +174,13 @@ define(function(require, exports, module) {
 
             game.physics.arcade.overlap(totem.sprite, Creeps.group, totemTakeDamage, null, this);
 
-            this.game.physics.arcade.collide(noCollide);
+            game.physics.arcade.collide(cow.sprite, obsticles);
+            game.physics.arcade.collide(cow.sprite, totem.sprite);
+            game.physics.arcade.collide(mouse.sprite, obsticles);
+            game.physics.arcade.collide(mouse.sprite, totem.sprite);
+            game.physics.arcade.collide(mouse.sprite, cow.sprite);
+
+            game.physics.arcade.collide(creepsGroup, obsticles);
 
             // collision debugging
             //Creeps.group.forEachAlive(function(creep) {

@@ -20,10 +20,24 @@ define(function(require, exports, module) {
         this.sprite.animations.add('hit', [7, 8, 9, 10, 11, 12], 12, false);
         this.sprite.animations.play('regular');
 
+
+        this.fill = game.add.sprite(Settings.TOTEM.startX - 33, Settings.TOTEM.startY - 209, 'totem-fill');
+        this.fill.animations.add('bubble', [0,1,2,3,4,5,6,7,8,9,10,11,12,13], 12, true);
+        this.fill.animations.play('bubble');
+
+        var mask = game.add.graphics(this.fill.x, this.fill.y);
+        mask.beginFill(0xffeecc);
+        mask.drawRect(0, 0, this.fill.width, this.fill.height);
+        mask.endFill();
+        this.fill.mask = mask;
+
+        var maskBottomY = mask.y + this.fill.height;
+
         this.takingDamage = false;
 
         this.takeDamage = function() {
             if (!this.takingDamage) {
+                mask.y = maskBottomY - ((this.currentLife * 10 / 100) * this.fill.height);
                 this.takingDamage = true;
                 if (--this.currentLife < 0) {
                     console.log("GAME OVER")

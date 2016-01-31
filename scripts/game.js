@@ -141,6 +141,7 @@ define(function(require, exports, module) {
             game.load.image('jellyBean', 'assets/dummy_jellyBean.png');
 
             game.load.spritesheet('totem', 'assets/totem.png', Settings.TOTEM.width, Settings.TOTEM.height);
+            game.load.spritesheet('totem-fill', 'assets/totem_fill.png', 66, 80);
 
             game.load.image('stamina-bar-bgr', 'assets/stamina-bar-bgr.png');
             game.load.image('stamina-bar-over', 'assets/stamina-bar-over.png');

@@ -96,7 +96,13 @@ define(function(require, exports, module) {
 
             renderable.add(cow.sprite);
             renderable.add(mouse.sprite);
-            //renderable.add(creepsGroup);
+            creepsGroup.forEach(function(creep){
+                renderable.add(creep);
+            })
+            beansGroup.forEach(function(bean){
+                renderable.add(bean);
+            })
+            renderable.add(beansGroup);
 
             totem = new Totem(game);
 

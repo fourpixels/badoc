@@ -4,6 +4,8 @@ define(function(require, exports, module) {
     var Beans = {};
     var _ = require('lodash');
 
+    var gameRef;
+
     function Bean(game) {
         var bean = game.add.sprite(0, 0, 'bean');
         bean.anchor.setTo(.5, .5);
@@ -19,6 +21,13 @@ define(function(require, exports, module) {
             bean.animations.play('drop').onComplete.add(function(){
                 if (bean.alive) {
                     bean.animations.play('idle');
+                    // bean disappears after some time
+                    gameRef.add.tween(bean).to({alpha: 0}, Settings.BEAN.beanTimeout, Phaser.Easing.Linear.None, true, 0).onComplete.add(function() {
+                        if (bean.alive) {
+                            bean.alive = false;
+                            bean.kill();
+                        }
+                    });
                 }
             });
         }
@@ -34,6 +43,7 @@ define(function(require, exports, module) {
     }
 
     Beans.init = function(game) {
+        gameRef = game;
         Beans.group = game.add.group();
         Beans.group.enableBody = true;
 

@@ -66,7 +66,7 @@
             height: 91,
             frames: 11,
             maxBeans: 100,
-            beanTimeout: 12000 // disappear after this much time
+            beanTimeout: 7000 // disappear after this much time
         },
         POUF: {
             width: 51,

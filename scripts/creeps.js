@@ -41,7 +41,7 @@ define(function(require, exports, module) {
             creep.revive();
             creep.dead = false;
             creep.body.enable = true;
-            //gameRef.add.tween(creep).from({alpha: 0}, 4000, Phaser.Easing.Linear.None, true, 0);
+            gameRef.add.tween(creep).from({alpha: 0}, 2000, Phaser.Easing.Linear.None, true, 0);
             var some = Math.random();
             var x = 0
             if (some > 0.67) {

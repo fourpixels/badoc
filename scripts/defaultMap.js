@@ -50,9 +50,6 @@ define(function(require, exports, module) {
 
     options.tiles = tiles;
 
-    console.log(MAP.length, MAP[0].length);
-    console.log(tiles.length, tiles[0].length);
-
     return createMap(options);
   };
 });

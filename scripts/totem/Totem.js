@@ -42,7 +42,7 @@ define(function(require, exports, module) {
                 mask.y = maskBottomY - ((this.currentLife * 10 / 100) * this.fill.height);
                 this.takingDamage = true;
                 if (--this.currentLife < 0) {
-                    console.log("GAME OVER")
+                  game.state.start('GameOver');
                 }
                 this.sprite.animations.play('hit').onComplete.add(function() {
                     self.sprite.animations.play('regular');

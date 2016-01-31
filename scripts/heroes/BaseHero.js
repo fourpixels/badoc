@@ -45,6 +45,8 @@ define(function(require, exports, module) {
             this.inputBThrottle = _.throttle(function() { _this.inputB(); }, this.heroSettings.actionBThrottle, { leading: true, trailing: false });
 
             this.setInputs(inputs);
+
+            this.pouf.animations.play('pouf');
         };
 
         this.initSprite = function initSprite() {
@@ -52,12 +54,11 @@ define(function(require, exports, module) {
         };
 
         this.initAnimations = function initAnimations() {
-            console.log('base init animations');
+            //console.log('base init animations');
         };
 
 
         this.teleport = function teleport() {
-            console.log('teleport', type);
             game.add.tween(this.sprite).to({ alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0);
             game.add.tween(this.sprite).to({ alpha: 1 }, 500, Phaser.Easing.Linear.None, true, 500);
             this.pouf.animations.play('pouf');
@@ -147,7 +148,6 @@ define(function(require, exports, module) {
         };
 
         this.walk = function walk() {
-            console.log('base walk');
             _this.gotoAndPlay('move');
         };
 

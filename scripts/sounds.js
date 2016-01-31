@@ -18,7 +18,7 @@ define(function(require, exports, module) {
         game.load.audio('mouseSpell', 'assets/sounds/mouse_spell.mp3');
         game.load.audio('cowWalk', 'assets/sounds/cow_walk.mp3');
         game.load.audio('beanSpawned', 'assets/sounds/bean_colected.mp3');
-        game.load.audio('beanCollected', 'assets/sounds/bean_spawn.mp3');
+        game.load.audio('beanCollected', 'assets/sounds/bean_spawn.wav');
         game.load.audio('totem-damage', 'assets/sounds/totem_damage.mp3');
     };
 

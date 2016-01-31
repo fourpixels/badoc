@@ -71,13 +71,15 @@ define(function(require, exports, module) {
                     creep.animations.play('die-red'); // animation is set to kill it at the end
                 }
 
-                creep.animations.currentAnim.onComplete.add(function() {
-                    var coordinates = {
-                        x: creep.body.x,
-                        y: creep.body.y
-                    };
-                    callback(coordinates);
-                });
+                if (callback) {
+                    creep.animations.currentAnim.onComplete.add(function() {
+                        var coordinates = {
+                            x: creep.body.x,
+                            y: creep.body.y
+                        };
+                        callback(coordinates);
+                    });
+                }
             }
         };
 

@@ -5,6 +5,7 @@ define(function(require, exports, module) {
     var Settings = require('settings');
     var Creeps = require('creeps');
     var map = require('defaultMap')();
+    var Sounds = require('Sounds');
     var seek = require('seek');
     var KeysManager = require('KeysManager');
 
@@ -17,18 +18,8 @@ define(function(require, exports, module) {
     var UIManager = require('UIManager');
 
     var Game = function Game() {
-        var width = window.innerWidth
-            || document.documentElement.clientWidth
-            || document.body.clientWidth;
 
-        var height = window.innerHeight
-            || document.documentElement.clientHeight
-            || document.body.clientHeight;
-
-        globals.windowWidth = width;
-        globals.windowHeight = height;
-
-        var game = new Phaser.Game(width, height, Phaser.AUTO, '', {
+        var game = new Phaser.Game(globals.windowWidth, globals.windowHeight, Phaser.AUTO, '', {
             create: create,
             preload: preload,
             update: update,
@@ -43,15 +34,19 @@ define(function(require, exports, module) {
 
         var cursors;
 
-        var fpsText;
+        var fpsText, timeText, soulsText;
         var renderable;
         //var inputsText;
         var noCollide;
 
+        game.soulsCollected = 0;
+
         function create() {
+
+            Sounds.init(game);
+
             noCollide = map.buildGroupsFor(game);
             renderable = game.add.group();
-
 
             game.time.advancedTiming = true;
             game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -97,13 +92,14 @@ define(function(require, exports, module) {
             var creepsGroup = Creeps.init(game);
             renderable.add(cow.sprite);
             renderable.add(mouse.sprite);
-            renderable.add(creepsGroup);
+            //renderable.add(creepsGroup);
 
             noCollide.add(cow.sprite);
             noCollide.add(mouse.sprite);
 
             totem = new Totem(game);
 
+            renderable.add(totem.sprite);
             noCollide.add(totem.sprite);
 
             //var cow2 = game.add.sprite(Settings.COW.startX, Settings.COW.startY, 'hero-test');
@@ -117,16 +113,27 @@ define(function(require, exports, module) {
                 fill: '#abc'
             });
 
+            timeText = game.add.text(globals.windowWidth / 2 - 8, 16, '0', {
+                fontSize: '20px',
+                fill: '#ea1'
+            });
+
+            soulsText = game.add.text(globals.windowWidth - 90, 16, 'Souls: 0', {
+                fontSize: '16px',
+                fill: '#ea1'
+            });
+
             jellyBeans = game.add.group();
             jellyBeans.enableBody = true;
 
             ui = new UIManager(game);
 
-            seek(map, [cow.sprite, mouse.sprite], creepsGroup);
+            seek(map, [cow.sprite, mouse.sprite, totem.sprite], creepsGroup);
             //inputsText = game.add.text(1, 36);
         }
 
         function preload() {
+            Sounds.load(game);
             map.loadFrom(game);
             game.load.spritesheet('hero-cow', 'assets/cow.png', Settings.COW.width, Settings.COW.height);
             game.load.spritesheet('hero-mouse', 'assets/mouse.png', Settings.MOUSE.width, Settings.MOUSE.height);
@@ -143,11 +150,8 @@ define(function(require, exports, module) {
 
         function update() {
             var timeSinceLastUpdate = game.time.elapsed;
+
             Creeps.update(timeSinceLastUpdate);
-
-            renderable.sort('y', Phaser.Group.SORT_ASCENDING);
-
-            fpsText.text = 'FPS: ' + game.time.fps;
 
             game.physics.arcade.overlap(cow.hitSprite, Creeps.group, function(cowSprite, creep) {
                 //creep.attack();
@@ -161,7 +165,9 @@ define(function(require, exports, module) {
                 }
                 console.log('collision:', creep.type, cow.cowColor);
                 if (die) {
+                    Sounds.creepDie.play();
                     creep.die(function(coordinates) {
+                        game.soulsCollected++;
                         jellyBeans.create(coordinates.x, coordinates.y, 'jellyBean');
                     });
                 }
@@ -173,7 +179,7 @@ define(function(require, exports, module) {
 
             this.game.physics.arcade.collide(noCollide);
 
-            // collission debugging
+            // collision debugging
             //Creeps.group.forEachAlive(function(creep) {
             //    game.debug.body(creep);
             //});
@@ -181,6 +187,12 @@ define(function(require, exports, module) {
             //game.debug.body(cow.sprite);
             //game.debug.body(totem.sprite);
             //inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
+
+            fpsText.text = 'FPS: ' + game.time.fps;
+            timeText.text = Math.floor(game.time.totalElapsedSeconds());
+            soulsText.text = 'Souls: ' + game.soulsCollected;
+
+            renderable.sort('y', Phaser.Group.SORT_ASCENDING);
         }
 
         function collectJellyBean(mouseSprite, jellyBean) {
@@ -190,7 +202,7 @@ define(function(require, exports, module) {
 
         function totemTakeDamage(totemSprite, creep) {
             totem.takeDamage();
-            // creeep animate hit
+            creep.die();
         }
 
         function render() {

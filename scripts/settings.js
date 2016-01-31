@@ -12,12 +12,34 @@
         global[name] = theModule;
     }
 })('Settings', function () {
+    var width = window.innerWidth
+        || document.documentElement.clientWidth
+        || document.body.clientWidth;
+
+    var height = window.innerHeight
+        || document.documentElement.clientHeight
+        || document.body.clientHeight;
+
+    globals.windowWidth = width;
+    globals.windowHeight = height;
+
     return {
+        CREEP: {
+            width: 126,
+            height: 151,
+        },
+        TOTEM: {
+            width: 134,
+            height: 326,
+            startX: (globals.windowWidth / 2 - 134 / 2),
+            startY: (globals.windowHeight - 326),
+            maxHits: 10
+        },
         COW: {
-            width: 139,
-            height: 192,
-            startX: 350,
-            startY: 250,
+            width: 208,
+            height: 203,
+            startX: (globals.windowWidth / 2 - 134 / 2) - 189, // totem startX - cow width
+            startY: (globals.windowHeight - 326), // totem startY
             velocity: 150,
             maxStamina: 100,
             framesToIncreaseStamina: 2,
@@ -27,23 +49,26 @@
             actionBThrottle: 1000
         },
         MOUSE: {
-            width: 66,
-            height: 87,
+            width: 78,
+            height: 123,
+            startX: (globals.windowWidth / 2 + 134 / 2),// totem endX
+            startY: (globals.windowHeight - 326), // totem startY
             maxStamina: 100,
             framesToIncreaseStamina: 4,
             actionAStamina: 50,
             actionBStamina: 90,
-            actionAThrottle: 800,
-            actionBThrottle: 1000
+            actionAThrottle: 1000,
+            actionBThrottle: 5000
         },
-        CREEP: {
-            width: 126,
-            height: 150
+        BEAN: {
+            width: 28,
+            height: 91,
+            frames: 11
         },
-        TOTEM: {
-            width: 134,
-            height: 326,
-            maxHits: 10
+        POUF: {
+            width: 51,
+            height: 170,
+            frames: 10 //all
         }
     };
 });

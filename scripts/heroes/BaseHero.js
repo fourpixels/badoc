@@ -6,6 +6,7 @@ define(function(require, exports, module) {
 
     var debug = require('debug')('jar:heroes:base');
     var Settings = require('settings');
+    var Sounds = require('Sounds');
 
     function BaseHero(game, type, inputs) {
         EventEmitter.call(this);
@@ -114,6 +115,7 @@ define(function(require, exports, module) {
 
         this.gotoAndPlay = function gotoAndPlay(label) {
             _this.sprite.animations.play(label);
+            Sounds.mouseWalk.play();
         };
 
         this.walk = function walk() {
@@ -123,6 +125,7 @@ define(function(require, exports, module) {
 
         this.stop = function stop() {
             _this.sprite.animations.play('idle');
+            Sounds.mouseWalk.stop();
             //_this.sprite.animations.stop(null, true);
         };
 

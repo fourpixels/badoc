@@ -48,10 +48,11 @@ require.config({
         'UIManager'
     ],
     callback: function(domReady) {
-        require(['game'], function(Game) {
+        require(['game', 'gameOver'], function(Game, GameOver) {
             domReady(function() {
               var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'test', null, false, true);
 
+              game.state.add('GameOver', GameOver);
               game.state.add('Game', Game);
               game.state.start('Game');
 

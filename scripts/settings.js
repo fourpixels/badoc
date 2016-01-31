@@ -43,7 +43,7 @@
             startY: (globals.windowHeight - 326), // totem startY
             velocity: 150,
             maxStamina: 100,
-            framesToIncreaseStamina: 2,
+            framesToIncreaseStamina: 4,
             actionAStamina: 10,
             actionBStamina: 50,
             actionAThrottle: 250,
@@ -55,7 +55,7 @@
             startX: (globals.windowWidth / 2 + 134 / 2),// totem endX
             startY: (globals.windowHeight - 326), // totem startY
             maxStamina: 100,
-            framesToIncreaseStamina: 4,
+            framesToIncreaseStamina: 8,
             actionAStamina: 50,
             actionBStamina: 90,
             actionAThrottle: 1000,

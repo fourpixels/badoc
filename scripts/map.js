@@ -31,8 +31,8 @@ define(function(require, exports, module) {
   Map.prototype.tileX = function(x) {
     position = Math.floor(x / this.tileSize);
 
+    if (position > this.sizeWidth - 1) return this.sizeWidth - 2;
     if (position < 0) return 0;
-    if (position > this.sizeWidth) return this.sizeWidth - 1;
 
     return position;
   }
@@ -40,8 +40,8 @@ define(function(require, exports, module) {
   Map.prototype.tileY = function(y) {
     position = Math.floor(y / this.tileSize);
 
+    if (position > this.sizeHeight - 1) return this.sizeHeight - 2;
     if (position < 0) return 0;
-    if (position >= this.sizeHeight) return this.sizeHeight - 1;
 
     return position;
   }

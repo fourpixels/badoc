@@ -1,28 +1,27 @@
 define(function(require, exports, module) {
-  var STYLE = {
-    font: "bold 32px Arial",
-    fill: "#fff",
-    boundsAlignH: "center",
-    boundsAlignV: "middle"
-  };
-
   var GameOver = function(game) {
     this.game = game;
   };
 
-  GameOver.prototype.update = function() {
+  GameOver.prototype.preload = function() {
+    this.game.load.image('button', 'assets/ui/buttonRestart.png');
+    this.game.load.image('background','assets/ui/backgroundGameOver.png');
+  }
+
+  GameOver.prototype.create = function() {
     var game = this.game;
 
-    var bar = game.add.graphics();
-    bar.beginFill(0x000000, 0.2);
-    bar.drawRect(0, 0, game.width, game.height);
+    game.stage.backgroundColor = '#986733';
 
-    text = game.add.text(0, 0, "Game Over", STYLE);
-    text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+    var imageX = game.world.centerX - 700/2;
+    var imageY = game.world.centerY - 476/2;
 
-    text.setTextBounds(0, 0, game.width, game.height);
+    game.add.image(imageX, imageY, 'background');
 
-    var button = game.add.button(game.world.centerX, game.world.centerY, 'button', actionOnClick, this, 1, 0, 2);
+    var buttonX = imageX + 260;
+    var buttonY = imageY + 300;
+
+    var button = game.add.button(buttonX, buttonY, 'button', actionOnClick, this);
   }
 
   function actionOnClick() {

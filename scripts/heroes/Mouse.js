@@ -67,6 +67,10 @@ define(function(require, exports, module) {
             // 27 - end - spell 3
         };
 
+        this.decreaseStamina =  function() {
+            if (--_this.stamina < 0) _this.stamina = 0;
+        }
+
         this.init();
     }
 

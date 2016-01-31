@@ -119,7 +119,7 @@ define(function(require, exports, module) {
 
             ui = new UIManager(game);
 
-            seek(map, [cow.sprite, mouse.sprite, totem.sprite], creepsGroup);
+            seek(map, [mouse.sprite, totem.sprite], creepsGroup);
             //inputsText = game.add.text(1, 36);
         };
 
@@ -161,7 +161,7 @@ define(function(require, exports, module) {
                     if (creep.type == 2)
                         die = true;
                 }
-                console.log('collision:', creep.type, cow.cowColor);
+                //console.log('collision:', creep.type, cow.cowColor);
                 if (die) {
                     Sounds.creepDie.play();
                     creep.die(function(coordinates) {
@@ -172,6 +172,7 @@ define(function(require, exports, module) {
             });
 
             game.physics.arcade.overlap(mouse.sprite, Beans.group, collectBean, null, this);
+            game.physics.arcade.overlap(mouse.sprite, Creeps.group, mouse.decreaseStamina, null, this);
 
             game.physics.arcade.overlap(totem.sprite, Creeps.group, totemTakeDamage, null, this);
 

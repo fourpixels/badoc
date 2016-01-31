@@ -48,8 +48,10 @@ define(function(require, exports, module) {
         this.executeA = function executeA() {
             _this.hitSprite.alpha = .72;
             this.hitSprite.body.enable = true;
+            this.casting = true;
 
             this.sprite.animations.play('hit-' + this.cowColor).onComplete.add(function(){
+                _this.casting = false;
                 if (_this.moving) {
                     _this.walk();
                 } else {
@@ -67,7 +69,7 @@ define(function(require, exports, module) {
             _this.emit('action:b');
         };
 
-        this.cast = function cast(color) {
+        this.castColor = function cast(color) {
             if (!color)
                 return;
             if (color != this.cowColor) {
@@ -77,7 +79,7 @@ define(function(require, exports, module) {
         };
 
         this.switchColor = function switchColor() {
-            this.cast(this.cowColor == 'red' ? 'blue' : 'red');
+            this.castColor(this.cowColor == 'red' ? 'blue' : 'red');
         };
 
         this.walk = function walk() {
@@ -87,20 +89,22 @@ define(function(require, exports, module) {
         };
 
         this.initAnimations = function initAnimations() {
-            console.log('cow init animations',  this);
+            //console.log('cow init animations',  this);
             this.sprite.animations.add('idle-red', [9], 12, false);
             this.sprite.animations.add('idle-blue', [0], 12, false);
             this.sprite.animations.add('move-red', [10,11,12,13,14,15,16,17], 12, true);
             this.sprite.animations.add('move-blue', [1,2,3,4,5,6,7,8], 12, true);
             this.sprite.animations.add('hit-blue', [18, 19, 20, 21, 22, 23, 24], 16, false);
             this.sprite.animations.add('hit-red', [25, 26, 27, 28, 29, 30, 31], 16, false);
+            //this.pouf.animations.play('pouf');
         };
 
         this.initSprite = function initSprite() {
             this.sprite.reset(Settings.COW.startX, Settings.COW.startY);
-            this.sprite.anchor.setTo(.45, .95);
+            this.sprite.anchor.setTo(.5, .95);
             this.hitSprite.anchor.setTo(.5,.65);
             this.sprite.body.setSize(55, 25, 5, 10);
+            this.pouf.anchor.setTo(.5, 1);
         };
 
         this.stop = function stop() {

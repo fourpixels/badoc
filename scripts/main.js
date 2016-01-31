@@ -19,6 +19,7 @@ require.config({
         'seek'              : 'seek',
         'map'               : 'map',
         'defaultMap'        : 'defaultMap',
+        'gameOver'        : 'gameOver',
 
         'debug'             : 'libs/debug',
         'KeysManager'       : 'inputs/KeysManager',
@@ -49,9 +50,12 @@ require.config({
     callback: function(domReady) {
         require(['game'], function(Game) {
             domReady(function() {
-                console.info("DOM READY");
-                var game = new Game();
-                globals.game = game;
+              var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'test', null, false, true);
+
+              game.state.add('Game', Game);
+              game.state.start('Game');
+
+              globals.game = game;
             });
         })
     }

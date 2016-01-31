@@ -21,6 +21,7 @@ require.config({
         'defaultMap'        : 'defaultMap',
         'gameOver'        : 'gameOver',
         'gameStart'        : 'gameStart',
+        'gameInstructions'        : 'gameInstructions',
 
         'debug'             : 'libs/debug',
         'KeysManager'       : 'inputs/KeysManager',
@@ -49,14 +50,15 @@ require.config({
         'UIManager'
     ],
     callback: function(domReady) {
-        require(['game', 'gameOver', 'gameStart'], function(Game, GameOver, GameStart) {
+        require(['game', 'gameOver', 'gameStart', 'gameInstructions'], function(Game, GameOver, GameStart, GameInstructions) {
             domReady(function() {
               var game = new Phaser.Game(window.innerWidth, window.innerHeight, Phaser.AUTO, 'test', null, false, true);
 
               game.state.add('GameStart', GameStart);
               game.state.add('GameOver', GameOver);
+              game.state.add('GameInstructions', GameInstructions);
               game.state.add('Game', Game);
-              game.state.start('Game');
+              game.state.start('GameStart');
 
               globals.game = game;
             });

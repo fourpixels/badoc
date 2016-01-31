@@ -5,6 +5,7 @@ define(function(require, exports, module) {
     var Settings = require('settings');
     var Creeps = require('creeps');
     var map = require('defaultMap')();
+    var Sounds = require('Sounds');
     var seek = require('seek');
     var KeysManager = require('KeysManager');
 
@@ -42,6 +43,9 @@ define(function(require, exports, module) {
         game.timeSurvived = 0; // seconds
 
         function create() {
+
+            Sounds.init(game);
+
             noCollide = map.buildGroupsFor(game);
             renderable = game.add.group();
 
@@ -130,6 +134,7 @@ define(function(require, exports, module) {
         }
 
         function preload() {
+            Sounds.load(game);
             map.loadFrom(game);
             game.load.spritesheet('hero-cow', 'assets/cow.png', Settings.COW.width, Settings.COW.height);
             game.load.spritesheet('hero-mouse', 'assets/mouse.png', Settings.MOUSE.width, Settings.MOUSE.height);
@@ -162,6 +167,7 @@ define(function(require, exports, module) {
                 }
                 console.log('collision:', creep.type, cow.cowColor);
                 if (die) {
+                    Sounds.creepDie.play();
                     creep.die(function(coordinates) {
                         game.soulsCollected++;
                         jellyBeans.create(coordinates.x, coordinates.y, 'jellyBean');

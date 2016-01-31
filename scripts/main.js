@@ -7,6 +7,7 @@ require.config({
         'Phaser'            : 'libs/phaser.min',
         'settings'          : 'settings',
         'Game'              : 'game',
+        'Sounds'            : 'sounds',
         'creeps'            : 'creeps',
 
         'easystar'       : 'libs/easystar',
@@ -36,7 +37,7 @@ require.config({
     config: {
 
     },
-    deps: ['jquery', 'Phaser', 'lodash', 'settings', 'domReady', 'debug', 'KeyMap', 'KeysManager', 'HeroInputs',
+    deps: ['jquery', 'Phaser', 'lodash', 'settings', 'domReady', 'debug', 'KeyMap', 'KeysManager', 'HeroInputs', 'Sounds',
         // heroes
         'Cow', 'Mouse', 'BaseHero',
         'creeps',

@@ -5,6 +5,7 @@ define(function(require, exports, module) {
 
     var BaseHero = require('BaseHero');
     var Settings = require('settings');
+    var Sounds = require('Sounds');
 
     function Cow(game, inputs) {
         BaseHero.call(this, game, 'cow', inputs);
@@ -55,6 +56,7 @@ define(function(require, exports, module) {
                     _this.stop();
                 }
             });
+            Sounds.hit.play();
             _this.emit('action:a');
         };
 

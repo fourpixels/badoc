@@ -158,6 +158,9 @@ define(function(require, exports, module) {
             game.load.image('stamina-bar-bgr', 'assets/stamina-bar-bgr.png');
             game.load.image('stamina-bar-over', 'assets/stamina-bar-over.png');
 
+            game.load.image('avatar-cow', 'assets/avatar-cow.png');
+            game.load.image('avatar-mouse', 'assets/avatar-mouse.png');
+
             game.load.image('cow-hit', 'assets/cow-hit.png');
         }
 

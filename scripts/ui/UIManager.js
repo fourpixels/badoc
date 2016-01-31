@@ -9,9 +9,12 @@ define(function(require, exports, module) {
         var mouseBar;
 
         if (game.cow)
-            cowBar = new Bar(10, 70, game.cow);
+            cowBar = new Bar(120, 70, game.cow);
         if (game.mouse)
-            mouseBar = new Bar(410, 70, game.mouse);
+            mouseBar = new Bar(560, 70, game.mouse);
+
+        var avatarCow = game.add.image(10, 10, 'avatar-cow');
+        var avatarMouse = game.add.image(440, 10, 'avatar-mouse');
 
         function Bar(x, y, hero) {
             var bgr = game.add.image(x, y, 'stamina-bar-bgr');

@@ -45,7 +45,6 @@ define(function(require, exports, module) {
     Beans.init = function(game, renderable) {
         gameRef = game;
         Beans.group = [];
-        Beans.group.enableBody = true;
 
         _.times(Settings.BEAN.maxBeans, function() {
             var aBean = new Bean(game, renderable);
@@ -56,12 +55,12 @@ define(function(require, exports, module) {
     };
 
     Beans.dropBean = function(x, y) {
-        Beans.group.forEach(function(bean){
-            if (!bean.alive) {
-                bean.drop(x, y);
-                return false;
+        for (var i = 0; i < Beans.group.length; i++) {
+            if (!Beans.group[i].alive) {
+                Beans.group[i].drop(x, y);
+                break;
             }
-        })
+        }
     };
 
     return Beans;

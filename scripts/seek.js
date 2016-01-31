@@ -42,6 +42,7 @@ define(function(require, exports, module) {
     easystar.setIterationsPerCalculation(1000);
     easystar.setAcceptableTiles([0]);
     easystar.enableDiagonals();
+    easystar.enableCornerCutting();
 
     var interval = setInterval(function(){
 
@@ -52,10 +53,10 @@ define(function(require, exports, module) {
 
         var currentPlayerXtile = map.tileX(enemy.target.body.position.x);
         var currentPlayerYtile = map.tileY(enemy.target.body.position.y);
-        var currentCowboyXtile = map.tileX(enemy.body.position.x);
-        var currentCowboyYtile = map.tileY(enemy.body.position.y);
+        var currentEnemyXtile = map.tileX(enemy.body.position.x);
+        var currentEnemyYtile = map.tileY(enemy.body.position.y);
 
-        easystar.findPath(currentCowboyXtile, currentCowboyYtile, currentPlayerXtile, currentPlayerYtile, function(path) {
+        easystar.findPath(currentEnemyXtile, currentEnemyYtile, currentPlayerXtile, currentPlayerYtile, function(path) {
           if (!path || !path[1]) {
             return callback(enemy, 'STOP');
           }
@@ -63,35 +64,35 @@ define(function(require, exports, module) {
           var currentNextPointX = path[1].x;
           var currentNextPointY = path[1].y;
 
-          if (currentNextPointX < currentCowboyXtile && currentNextPointY < currentCowboyYtile) {
+          if (currentNextPointX < currentEnemyXtile && currentNextPointY < currentEnemyYtile) {
             return callback(enemy, "NW");
           }
 
-          if (currentNextPointX == currentCowboyXtile && currentNextPointY < currentCowboyYtile) {
+          if (currentNextPointX == currentEnemyXtile && currentNextPointY < currentEnemyYtile) {
             return callback(enemy, "N");
           }
 
-          if (currentNextPointX > currentCowboyXtile && currentNextPointY < currentCowboyYtile) {
+          if (currentNextPointX > currentEnemyXtile && currentNextPointY < currentEnemyYtile) {
             return callback(enemy, "NE");
           }
 
-          if (currentNextPointX < currentCowboyXtile && currentNextPointY == currentCowboyYtile) {
+          if (currentNextPointX < currentEnemyXtile && currentNextPointY == currentEnemyYtile) {
             return callback(enemy, "W");
           }
 
-          if (currentNextPointX > currentCowboyXtile && currentNextPointY == currentCowboyYtile) {
+          if (currentNextPointX > currentEnemyXtile && currentNextPointY == currentEnemyYtile) {
             return callback(enemy, "E");
           }
 
-          if (currentNextPointX > currentCowboyXtile && currentNextPointY > currentCowboyYtile) {
+          if (currentNextPointX > currentEnemyXtile && currentNextPointY > currentEnemyYtile) {
             return callback(enemy, "SE");
           }
 
-          if (currentNextPointX == currentCowboyXtile && currentNextPointY > currentCowboyYtile) {
+          if (currentNextPointX == currentEnemyXtile && currentNextPointY > currentEnemyYtile) {
             return callback(enemy, "S");
           }
 
-          if (currentNextPointX < currentCowboyXtile && currentNextPointY > currentCowboyYtile) {
+          if (currentNextPointX < currentEnemyXtile && currentNextPointY > currentEnemyYtile) {
             return callback(enemy, "SW");
           }
 

@@ -1,4 +1,4 @@
-Soul Jar
+Voodoo Jar
 =======================
 
 HTML5 game made for around 38 hours as part of the [Sofia Game Jam](http://www.sofiagamejam.com/).
@@ -17,5 +17,5 @@ Drawings and graphics by:
 
 <hr />
 
-More info: [Soul Jar at Global Game Jam](http://globalgamejam.org/2016/games/souljar)
+More info: [Voodoo Jar at Global Game Jam](http://globalgamejam.org/2016/games/voodoo-jar)
 

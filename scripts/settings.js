@@ -33,12 +33,12 @@
             framesToIncreaseStamina: 4,
             actionAStamina: 50,
             actionBStamina: 90,
-            actionAThrottle: 1000,
-            actionBThrottle: 5000
+            actionAThrottle: 800,
+            actionBThrottle: 1000
         },
         CREEP: {
             width: 126,
-            height: 150,
+            height: 150
         },
         TOTEM: {
             width: 134,

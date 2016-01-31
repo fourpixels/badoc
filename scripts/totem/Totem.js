@@ -6,7 +6,10 @@ define(function(require, exports, module) {
     var Settings = require('settings');
     var Sounds = require('Sounds');
 
+    var gameRef;
+
     function Totem(game, renderable) {
+        gameRef = game;
         var self = this;
         this.maxLifes = Settings.TOTEM.maxHits;
         this.currentLife = this.maxLifes;
@@ -38,16 +41,20 @@ define(function(require, exports, module) {
 
         this.takeDamage = function() {
             if (!this.takingDamage) {
+                this.sprite.tint = 0xff0000;
                 Sounds.totemDamage.play();
                 mask.y = maskBottomY - ((this.currentLife * 10 / 100) * this.fill.height);
                 this.takingDamage = true;
                 if (--this.currentLife < 0) {
-                  game.state.start('GameOver');
+                    game.state.start('GameOver');
                 }
                 this.sprite.animations.play('hit').onComplete.add(function() {
                     self.sprite.animations.play('regular');
                     self.takingDamage = false;
                 });
+                // flash totem
+                self.sprite.tint = 0xffffff;
+                gameRef.add.tween(self.sprite).from({tint: 0xcc8888}, 2000, Phaser.Easing.Default, true);
             }
         }
     }

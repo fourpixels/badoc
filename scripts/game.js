@@ -26,7 +26,8 @@ define(function(require, exports, module) {
 
         var cursors;
 
-        var fpsText, timeText, soulsText;
+        var timeText, soulsText;
+        //var fpsText;
         var renderable;
         //var inputsText;
         var obsticles;
@@ -102,10 +103,10 @@ define(function(require, exports, module) {
 
             renderable.add(totem.sprite);
 
-            fpsText = game.add.text(16, 16, 'FPS: 0', {
-                fontSize: '16px',
-                fill: '#abc'
-            });
+            //fpsText = game.add.text(16, 16, 'FPS: 0', {
+            //    fontSize: '16px',
+            //    fill: '#abc'
+            //});
 
             timeText = game.add.text(globals.windowWidth / 2 - 8, 16, '0', {
                 fontSize: '20px',
@@ -196,7 +197,7 @@ define(function(require, exports, module) {
             //game.debug.body(totem.sprite);
             //inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
 
-            fpsText.text = 'FPS: ' + game.time.fps;
+            //fpsText.text = 'FPS: ' + game.time.fps;
             timeText.text = Math.floor(game.time.totalElapsedSeconds());
             soulsText.text = 'Souls: ' + game.soulsCollected;
 

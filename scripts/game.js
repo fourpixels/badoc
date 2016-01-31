@@ -4,6 +4,7 @@ define(function(require, exports, module) {
     var debug = require('debug')('jar:game');
     var Settings = require('settings');
     var Creeps = require('creeps');
+    var Beans = require('beans');
     var map = require('defaultMap')();
     var Sounds = require('Sounds');
     var seek = require('seek');
@@ -90,6 +91,7 @@ define(function(require, exports, module) {
             game.mouse = mouse;
 
             var creepsGroup = Creeps.init(game);
+            var beansGroup = Beans.init(game);
             renderable.add(cow.sprite);
             renderable.add(mouse.sprite);
             //renderable.add(creepsGroup);
@@ -123,9 +125,6 @@ define(function(require, exports, module) {
                 fill: '#ea1'
             });
 
-            jellyBeans = game.add.group();
-            jellyBeans.enableBody = true;
-
             ui = new UIManager(game);
 
             seek(map, [cow.sprite, mouse.sprite, totem.sprite], creepsGroup);
@@ -138,7 +137,8 @@ define(function(require, exports, module) {
             game.load.spritesheet('hero-cow', 'assets/cow.png', Settings.COW.width, Settings.COW.height);
             game.load.spritesheet('hero-mouse', 'assets/mouse.png', Settings.MOUSE.width, Settings.MOUSE.height);
             game.load.spritesheet('creep', 'assets/creep.png', Settings.CREEP.width, Settings.CREEP.height);
-            game.load.image('jellyBean', 'assets/dummy_jellyBean.png');
+
+            game.load.spritesheet('bean', 'assets/bean.png', Settings.BEAN.width, Settings.BEAN.height);
 
             game.load.spritesheet('totem', 'assets/totem.png', Settings.TOTEM.width, Settings.TOTEM.height);
 
@@ -168,12 +168,12 @@ define(function(require, exports, module) {
                     Sounds.creepDie.play();
                     creep.die(function(coordinates) {
                         game.soulsCollected++;
-                        jellyBeans.create(coordinates.x, coordinates.y, 'jellyBean');
+                        Beans.dropBean(coordinates.x, coordinates.y);
                     });
                 }
             });
 
-            game.physics.arcade.overlap(mouse.sprite, jellyBeans, collectJellyBean, null, this);
+            game.physics.arcade.overlap(mouse.sprite, Beans.group, collectBean, null, this);
 
             game.physics.arcade.overlap(totem.sprite, Creeps.group, totemTakeDamage, null, this);
 
@@ -195,8 +195,8 @@ define(function(require, exports, module) {
             renderable.sort('y', Phaser.Group.SORT_ASCENDING);
         }
 
-        function collectJellyBean(mouseSprite, jellyBean) {
-            jellyBean.kill();
+        function collectBean(mouseSprite, bean) {
+            bean.collect();
             mouse.increaseStamina(20);
         };
 

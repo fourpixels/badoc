@@ -61,7 +61,11 @@ define(function(require, exports, module) {
             });
 
             mouse.on('action:a', function() {
-                cow.switchColor();
+                setTimeout(function() {
+                    cow.switchColor();
+                }, 500);
+
+                mouse.cast(cow.cowColor == 'red' ? 'blue' : 'red');
             });
 
             mouse.on('action:b', function() {
@@ -72,11 +76,17 @@ define(function(require, exports, module) {
                 //debug(mousePos);
                 //debug(cowPos);
 
-                mouse.sprite.x = cowPos.x;
-                mouse.sprite.y = cowPos.y;
 
-                cow.sprite.x = mousePos.x;
-                cow.sprite.y = mousePos.y;
+                setTimeout(function() {
+                    mouse.sprite.x = cowPos.x;
+                    mouse.sprite.y = cowPos.y;
+
+                    cow.sprite.x = mousePos.x;
+                    cow.sprite.y = mousePos.y;
+                }, 500);
+
+                cow.teleport();
+                mouse.teleport();
 
                 var mouseInputs = mouse.inputs;
                 var cowInputs = cow.inputs;
@@ -142,6 +152,8 @@ define(function(require, exports, module) {
 
             game.load.spritesheet('totem', 'assets/totem.png', Settings.TOTEM.width, Settings.TOTEM.height);
             game.load.spritesheet('totem-fill', 'assets/totem_fill.png', 66, 80);
+
+            game.load.spritesheet('pouf', 'assets/pouf.png', 51, 170);
 
             game.load.image('stamina-bar-bgr', 'assets/stamina-bar-bgr.png');
             game.load.image('stamina-bar-over', 'assets/stamina-bar-over.png');

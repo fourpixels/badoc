@@ -24,6 +24,9 @@ define(function(require, exports, module) {
         game.physics.arcade.enable(this.sprite);
         this.sprite.body.collideWorldBounds = true;
 
+        this.pouf = game.add.sprite(this.sprite.x, this.sprite.y, 'pouf');
+        this.pouf.animations.add('pouf', [0,1,2,3,4,5,6,7,8,9], 10, false);
+
         /*this.sprite.animations.add('down', [0, 1, 2], 10, true);
         this.sprite.animations.add('left', [3, 4, 5], 10, true);
         this.sprite.animations.add('right', [6, 7, 8], 10, true);
@@ -31,6 +34,7 @@ define(function(require, exports, module) {
 
         this.moving = false;
         this.lookingDir = 1; // TODO: set default?
+        this.casting = false;
 
 
         this.init = function() {
@@ -49,13 +53,33 @@ define(function(require, exports, module) {
 
         this.initAnimations = function initAnimations() {
             console.log('base init animations');
-            this.sprite.animations.add('idle', [0], 12, false);
-            this.sprite.animations.add('move', [1,2,3,4,5,6,7,8], 12, true);
+        };
+
+
+        this.teleport = function teleport() {
+            console.log('teleport', type);
+            game.add.tween(this.sprite).to({ alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0);
+            game.add.tween(this.sprite).to({ alpha: 1 }, 500, Phaser.Easing.Linear.None, true, 500);
+            this.pouf.animations.play('pouf');
+
+            _this.stop();
+
+            if (type == 'mouse') {
+                _this.sprite.animations.play('teleport');
+            }
+
+            this.casting = true;
+            setTimeout(function() {
+                _this.casting = false;
+            }, 1000);
         };
 
         this.staminaCounter = 0;
 
         this.update = function() {
+            _this.pouf.x = _this.sprite.x;
+            _this.pouf.y = _this.sprite.y;
+
             var lookingDir;
             var moving = false;
             if (_this.inputs.left.isDown) {
@@ -87,6 +111,16 @@ define(function(require, exports, module) {
                 _this.sprite.body.velocity.y = 0;
             }
 
+            _this.staminaCounter++;
+            if (_this.staminaCounter == _this.heroSettings.framesToIncreaseStamina) {
+                _this.staminaCounter = 0;
+                _this.increaseStamina(1);
+            }
+
+            if (_this.casting)
+                return;
+
+
             if (moving != _this.moving) {
                 if (!moving) {
                     _this.stop();
@@ -95,12 +129,6 @@ define(function(require, exports, module) {
                 }
 
                 _this.moving = moving;
-            }
-
-            _this.staminaCounter++;
-            if (_this.staminaCounter == _this.heroSettings.framesToIncreaseStamina) {
-                _this.staminaCounter = 0;
-                _this.increaseStamina(1);
             }
         };
 

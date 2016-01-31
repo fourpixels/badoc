@@ -18,16 +18,7 @@ define(function(require, exports, module) {
     var KeyMap = require('KeyMap');
     var UIManager = require('UIManager');
 
-    var Game = function Game() {
-
-        var game = new Phaser.Game(globals.windowWidth, globals.windowHeight, Phaser.AUTO, '', {
-            create: create,
-            preload: preload,
-            update: update,
-            render: render
-        });
-
-
+    return function Game(game) {
         var cow;
         var mouse;
         var ui;
@@ -224,9 +215,11 @@ define(function(require, exports, module) {
         function render() {
         }
 
-        return game;
+        return {
+            create: create,
+            preload: preload,
+            update: update,
+            render: render
+        };
     };
-
-
-    return Game;
 });

@@ -25,7 +25,8 @@ define(function(require, exports, module) {
         this.sprite.body.collideWorldBounds = true;
 
         this.pouf = game.add.sprite(this.sprite.x, this.sprite.y, 'pouf');
-        this.pouf.animations.add('pouf', [0,1,2,3,4,5,6,7,8,9], 10, false);
+        this.pouf.animations.add('pouf', [0,1,2,3,4,5,6,7,8,9], 10, false).killOnComplete = true;
+        this.pouf.kill();
 
         /*this.sprite.animations.add('down', [0, 1, 2], 10, true);
         this.sprite.animations.add('left', [3, 4, 5], 10, true);
@@ -46,7 +47,7 @@ define(function(require, exports, module) {
 
             this.setInputs(inputs);
 
-            this.pouf.animations.play('pouf');
+            //this.pouf.animations.play('pouf');
         };
 
         this.initSprite = function initSprite() {
@@ -61,25 +62,28 @@ define(function(require, exports, module) {
         this.teleport = function teleport() {
             game.add.tween(this.sprite).to({ alpha: 0 }, 500, Phaser.Easing.Linear.None, true, 0);
             game.add.tween(this.sprite).to({ alpha: 1 }, 500, Phaser.Easing.Linear.None, true, 500);
+
+            this.pouf.revive();
+            this.pouf.reset(_this.sprite.x,_this.sprite.y)
             this.pouf.animations.play('pouf');
 
-            _this.stop();
+            //_this.stop();
 
-            if (type == 'mouse') {
-                _this.sprite.animations.play('teleport');
-            }
+            //if (type == 'mouse') {
+            //    _this.sprite.animations.play('teleport');
+            //}
 
-            this.casting = true;
-            setTimeout(function() {
-                _this.casting = false;
-            }, 1000);
+            //this.casting = true;
+            //setTimeout(function() {
+            //    _this.casting = false;
+            //}, 1000);
         };
 
         this.staminaCounter = 0;
-
+this.lookingDir = 1;
         this.update = function() {
-            _this.pouf.x = _this.sprite.x;
-            _this.pouf.y = _this.sprite.y;
+            //_this.pouf.x = _this.sprite.x;
+            //_this.pouf.y = _this.sprite.y;
 
             var lookingDir;
             var moving = false;
@@ -99,7 +103,7 @@ define(function(require, exports, module) {
 
             if (lookingDir && lookingDir != _this.lookingDir) {
                 _this.lookingDir = lookingDir;
-                _this.sprite.scale.x = _this.lookingDir == 0 ? 1 : _this.lookingDir;
+                _this.sprite.scale.x = _this.lookingDir;
             }
 
             if (_this.inputs.up.isDown) {
@@ -121,16 +125,14 @@ define(function(require, exports, module) {
             if (_this.casting)
                 return;
 
-
-            if (moving != _this.moving) {
+            _this.moving = moving;
+            //if (moving != _this.moving) {
                 if (!moving) {
                     _this.stop();
                 } else {
                     _this.walk();
                 }
-
-                _this.moving = moving;
-            }
+            //}
         };
 
         var _update = this.sprite.update;

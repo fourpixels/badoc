@@ -27,10 +27,10 @@ define(function(require, exports, module) {
         var cursors;
 
         var timeText, soulsText;
-        //var fpsText;
+        //var fpsText; // debugging text
         var renderable;
         //var inputsText;
-        var obsticles;
+        var obstacles;
         var creepsGroup;
 
         game.soulsCollected = 0;
@@ -39,13 +39,11 @@ define(function(require, exports, module) {
             $('#loader').hide();
             Sounds.init(game);
 
-            obsticles = map.buildGroupsFor(game);
+            obstacles = map.buildGroupsFor(game);
             renderable = game.add.group();
 
             game.time.advancedTiming = true;
             game.physics.startSystem(Phaser.Physics.ARCADE);
-
-            //game.stage.backgroundColor = '#AAAAAA';
 
             cow = new Cow(game, new HeroInputs(game, KeyMap.cow), renderable);
             mouse = new Mouse(game, new HeroInputs(game, KeyMap.mouse), renderable);
@@ -69,7 +67,6 @@ define(function(require, exports, module) {
 
                 //debug(mousePos);
                 //debug(cowPos);
-
 
                 setTimeout(function() {
                     mouse.sprite.x = cowPos.x;
@@ -178,13 +175,13 @@ define(function(require, exports, module) {
 
             game.physics.arcade.overlap(totem.sprite, Creeps.group, totemTakeDamage, null, this);
 
-            game.physics.arcade.collide(cow.sprite, obsticles);
+            game.physics.arcade.collide(cow.sprite, obstacles);
             game.physics.arcade.collide(cow.sprite, totem.sprite);
-            game.physics.arcade.collide(mouse.sprite, obsticles);
+            game.physics.arcade.collide(mouse.sprite, obstacles);
             game.physics.arcade.collide(mouse.sprite, totem.sprite);
             game.physics.arcade.collide(mouse.sprite, cow.sprite);
 
-            game.physics.arcade.collide(creepsGroup, obsticles);
+            game.physics.arcade.collide(creepsGroup, obstacles);
 
             // collision debugging
             //Creeps.group.forEachAlive(function(creep) {

@@ -221,7 +221,7 @@ define(function(require, exports, module) {
         function collectBean(mouseSprite, bean) {
             bean.collect();
             mouse.increaseStamina(20);
-        };
+        }
 
         function totemTakeDamage(totemSprite, creep) {
             totem.takeDamage();

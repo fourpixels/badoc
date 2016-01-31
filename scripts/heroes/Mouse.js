@@ -5,6 +5,7 @@ define(function(require, exports, module) {
 
     var BaseHero = require('BaseHero');
     var Settings = require('settings');
+    var Sounds = require('Sounds');
 
     function Mouse(game, inputs) {
         BaseHero.call(this, game, 'mouse', inputs);
@@ -50,6 +51,7 @@ define(function(require, exports, module) {
         this.cast = function cast(color) {
             this.sprite.animations.play('spell-' + color);
             this.casting = true;
+            Sounds.mouseSpell.play();
         };
 
         this.initSprite = function initSprite() {

@@ -4,6 +4,7 @@
 define(function(require, exports, module) {
 
     var Settings = require('settings');
+    var Sounds = require('Sounds');
 
     function Totem(game) {
         var self = this;
@@ -37,6 +38,7 @@ define(function(require, exports, module) {
 
         this.takeDamage = function() {
             if (!this.takingDamage) {
+                Sounds.totemDamage.play();
                 mask.y = maskBottomY - ((this.currentLife * 10 / 100) * this.fill.height);
                 this.takingDamage = true;
                 if (--this.currentLife < 0) {

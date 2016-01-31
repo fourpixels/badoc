@@ -96,9 +96,7 @@ define(function(require, exports, module) {
     }
 
     Creeps.init = function(game, renderable) {
-        //Creeps.group = game.add.group(renderable);
         Creeps.group = []
-        //Creeps.group.enableBody = true;
 
         _.times(Settings.CREEP.maxCreeps, function() {
             var aCreep = new Creep(game, renderable);
@@ -109,12 +107,12 @@ define(function(require, exports, module) {
     };
 
     Creeps.addCreep = function() {
-        Creeps.group.forEach(function(creep){
-            if (!creep.alive) {
-                creep.spawn();
-                return false;
+        for (var i = 0; i < Creeps.group.length; i++) {
+            if (!Creeps.group[i].alive) {
+                Creeps.group[i].spawn();
+                break;
             }
-        })
+        }
     };
 
     var timeUntilNextCreep = 2500;
@@ -125,7 +123,6 @@ define(function(require, exports, module) {
             timeUntilNextCreep -= 50;
             if (timeUntilNextCreep < 500) timeUntilNextCreep = 500;
             Creeps.addCreep();
-            //Creeps.group.sort('y', Phaser.Group.SORT_ASCENDING);
             timeSinceLastCreep = 0;
         }
     };

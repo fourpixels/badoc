@@ -183,6 +183,9 @@ define(function(require, exports, module) {
             //Creeps.group.forEachAlive(function(creep) {
             //    game.debug.body(creep);
             //});
+            //Beans.group.forEachAlive(function(bean) {
+            //    game.debug.body(bean);
+            //});
             //game.debug.body(mouse.sprite);
             //game.debug.body(cow.sprite);
             //game.debug.body(totem.sprite);

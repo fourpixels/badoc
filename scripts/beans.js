@@ -8,7 +8,7 @@ define(function(require, exports, module) {
         var bean = game.add.sprite(0, 0, 'bean');
         bean.anchor.setTo(.5, .5);
         game.physics.enable(bean, Phaser.Physics.ARCADE);
-        bean.body.setSize(50, 25, 0, 65); // todo
+        bean.body.setSize(45, 25, 0, 40);
         bean.animations.add('drop', [0, 1, 2, 3, 4, 5, 6, 7, 9, 10], 12, false);
         bean.animations.add('idle', [10], 12, false);
 

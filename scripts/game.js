@@ -108,13 +108,13 @@ define(function(require, exports, module) {
             //    fill: '#abc'
             //});
 
-            timeText = game.add.text(globals.windowWidth / 2 - 8, 16, '0', {
+            timeText = game.add.text(globals.windowWidth / 2 - 90, globals.windowHeight - 36, '0', {
                 fontSize: '20px',
                 fill: '#ea1'
             });
 
-            soulsText = game.add.text(globals.windowWidth - 90, 16, 'Souls: 0', {
-                fontSize: '16px',
+            soulsText = game.add.text(globals.windowWidth - 140, 16, 'Souls: 0', {
+                fontSize: '26px',
                 fill: '#ea1'
             });
 
@@ -198,7 +198,7 @@ define(function(require, exports, module) {
             //inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
 
             //fpsText.text = 'FPS: ' + game.time.fps;
-            timeText.text = Math.floor(game.time.totalElapsedSeconds());
+            timeText.text = 'Survived: ' + Math.floor(game.time.totalElapsedSeconds());
             soulsText.text = 'Souls: ' + game.soulsCollected;
 
             renderable.sort('y', Phaser.Group.SORT_ASCENDING);

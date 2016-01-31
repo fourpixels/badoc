@@ -69,6 +69,9 @@ define(function(require, exports, module) {
             this.hitSprite.body.enable = true;
             this.casting = true;
 
+            _this.sprite.tint = 0xffffff;
+
+            game.add.tween(_this.sprite).from({tint: 0x4444ee}, 500, Phaser.Easing.Default, true);
             this.sprite.animations.play('hit-' + this.cowColor).onComplete.add(function(){
                 _this.casting = false;
                 _this.sprite.scale.x = _this.sprite.scale.y = 1;

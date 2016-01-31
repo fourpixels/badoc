@@ -34,12 +34,10 @@ define(function(require, exports, module) {
           enemy.target = targets[random(targets.length - 1)];
         }
 
-        // var targetX = map.tileX(enemy.target.body.position.x + enemy.width);
         var targetX = map.tileX(enemy.target.body.position.x);
-        var targetY = map.tileY(enemy.target.body.position.y + enemy.target.height);
-        // var currentX = map.tileX(enemy.body.position.x + enemy.width);
+        var targetY = map.tileY(enemy.target.body.position.y);
         var currentX = map.tileX(enemy.body.position.x);
-        var currentY = map.tileY(enemy.body.position.y + enemy.height);
+        var currentY = map.tileY(enemy.body.position.y);
 
         easystar.findPath(currentX, currentY, targetX, targetY, function(path) {
           var nextX = 0;

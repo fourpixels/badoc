@@ -14,7 +14,7 @@ define(function(require, exports, module) {
 
         this.cowColor = 'blue';
         this.hitSprite = renderable.create(this.sprite.x, this.sprite.y, 'cow-hit');
-        this.hitSprite.alpha = .2;
+        this.hitSprite.alpha = .01;
         game.physics.arcade.enable(this.hitSprite);
         this.hitSprite.body.enable = false;
 
@@ -34,10 +34,10 @@ define(function(require, exports, module) {
                 this.hitSprite.body.enable = false;*/
             }
 
-            if (this.hitSprite.alpha > .5) {
+            if (this.hitSprite.alpha > .01) {
                 hideHit = true;
 
-                this.hitSprite.alpha = .2;
+                this.hitSprite.alpha = .01;
                 this.hitSprite.scale.x = this.hitSprite.scale.y = 1;
                 this.hitSprite.body.enable = false;
             }
@@ -46,7 +46,7 @@ define(function(require, exports, module) {
         };
 
         this.executeA = function executeA() {
-            _this.hitSprite.alpha = .72;
+            _this.hitSprite.alpha = .02;
             this.hitSprite.body.enable = true;
             this.casting = true;
 
@@ -63,9 +63,23 @@ define(function(require, exports, module) {
         };
 
         this.executeB = function executeB() {
-            _this.hitSprite.alpha = .72;
             _this.hitSprite.scale.x = _this.hitSprite.scale.y = 1.5;
+            _this.sprite.scale.x = _this.sprite.scale.y = 1.2;
+            _this.hitSprite.alpha = .02;
             this.hitSprite.body.enable = true;
+            this.casting = true;
+
+            this.sprite.animations.play('hit-' + this.cowColor).onComplete.add(function(){
+                _this.casting = false;
+                _this.sprite.scale.x = _this.sprite.scale.y = 1;
+                if (_this.moving) {
+                    _this.walk();
+                } else {
+                    _this.stop();
+                }
+            });
+            Sounds.cowHit.play();
+
             _this.emit('action:b');
         };
 

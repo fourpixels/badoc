@@ -17,6 +17,8 @@ define(function(require, exports, module) {
         game.load.audio('mouseWalk', 'assets/sounds/mouse_walk.mp3');
         game.load.audio('mouseSpell', 'assets/sounds/mouse_spell.mp3');
         game.load.audio('cowWalk', 'assets/sounds/cow_walk.mp3');
+        game.load.audio('beanSpawned', 'assets/sounds/bean_colected.mp3');
+        game.load.audio('beanCollected', 'assets/sounds/bean_spawn.mp3');
         game.load.audio('totem-damage', 'assets/sounds/totem_damage.mp3');
     };
 
@@ -24,6 +26,9 @@ define(function(require, exports, module) {
         Sounds.ambient = game.add.audio('ambient');
         Sounds.ambient.play();
 
+        Sounds.beanSpawned = game.add.audio('beanSpawned');
+        Sounds.beanCollected = game.add.audio('beanCollected');
+        Sounds.beanSpawned.allowMultiple = Sounds.beanCollected.allowMultiple = true;
         Sounds.cowHit = game.add.audio('cow-hit');
         Sounds.creepDie = game.add.audio('creepDie');
         Sounds.creepDie.allowMultiple = true;

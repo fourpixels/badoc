@@ -3,6 +3,7 @@ define(function(require, exports, module) {
     var Settings = require('settings');
     var Beans = {};
     var _ = require('lodash');
+    var Sounds = require('Sounds');
 
     var gameRef;
 
@@ -18,6 +19,7 @@ define(function(require, exports, module) {
             bean.revive();
             bean.reset(x, y);
             bean.alive = true;
+            Sounds.beanSpawned.play();
             bean.animations.play('drop').onComplete.add(function(){
                 if (bean.alive) {
                     bean.animations.play('idle');
@@ -33,6 +35,7 @@ define(function(require, exports, module) {
         };
 
         bean.collect = function() {
+            Sounds.beanCollected.play();
             bean.alive = false;
             bean.kill();
         };

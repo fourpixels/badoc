@@ -58,7 +58,7 @@ define(function(require, exports, module) {
                     _this.stop();
                 }
             });
-            Sounds.hit.play();
+            Sounds.cowHit.play();
             _this.emit('action:a');
         };
 

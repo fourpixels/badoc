@@ -143,7 +143,7 @@ define(function(require, exports, module) {
 
         this.gotoAndPlay = function gotoAndPlay(label) {
             _this.sprite.animations.play(label);
-            Sounds.mouseWalk.play();
+            //Sounds.mouseWalk.play();
         };
 
         this.walk = function walk() {
@@ -153,7 +153,7 @@ define(function(require, exports, module) {
 
         this.stop = function stop() {
             _this.sprite.animations.play('idle');
-            Sounds.mouseWalk.stop();
+            //Sounds.mouseWalk.stop();
             //_this.sprite.animations.stop(null, true);
         };
 

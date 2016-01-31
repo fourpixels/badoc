@@ -33,10 +33,13 @@ define(function(require, exports, module) {
 
         var cursors;
 
-        var fpsText;
+        var fpsText, timeText, soulsText;
         var renderable;
         //var inputsText;
         var noCollide;
+
+        game.soulsCollected = 0;
+        game.timeSurvived = 0; // seconds
 
         function create() {
             noCollide = map.buildGroupsFor(game);
@@ -107,6 +110,16 @@ define(function(require, exports, module) {
                 fill: '#abc'
             });
 
+            timeText = game.add.text(globals.windowWidth / 2 - 8, 16, '0', {
+                fontSize: '20px',
+                fill: '#ea1'
+            });
+
+            soulsText = game.add.text(globals.windowWidth - 90, 16, 'Souls: 0', {
+                fontSize: '16px',
+                fill: '#ea1'
+            });
+
             jellyBeans = game.add.group();
             jellyBeans.enableBody = true;
 
@@ -133,9 +146,9 @@ define(function(require, exports, module) {
 
         function update() {
             var timeSinceLastUpdate = game.time.elapsed;
-            Creeps.update(timeSinceLastUpdate);
+            game.timeSurvived += timeSinceLastUpdate;
 
-            fpsText.text = 'FPS: ' + game.time.fps;
+            Creeps.update(timeSinceLastUpdate);
 
             game.physics.arcade.overlap(cow.hitSprite, Creeps.group, function(cowSprite, creep) {
                 //creep.attack();
@@ -150,6 +163,7 @@ define(function(require, exports, module) {
                 console.log('collision:', creep.type, cow.cowColor);
                 if (die) {
                     creep.die(function(coordinates) {
+                        game.soulsCollected++;
                         jellyBeans.create(coordinates.x, coordinates.y, 'jellyBean');
                     });
                 }
@@ -169,6 +183,10 @@ define(function(require, exports, module) {
             //game.debug.body(cow.sprite);
             //game.debug.body(totem.sprite);
             //inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
+
+            fpsText.text = 'FPS: ' + game.time.fps;
+            timeText.text = Math.round(game.timeSurvived / 1000);
+            soulsText.text = 'Souls: ' + game.soulsCollected;
 
             renderable.sort('y', Phaser.Group.SORT_ASCENDING);
         }

@@ -9,6 +9,7 @@ require.config({
         'Game'              : 'game',
         'Sounds'            : 'sounds',
         'creeps'            : 'creeps',
+        'beans'             : 'beans',
 
         'easystar'       : 'libs/easystar',
 
@@ -40,7 +41,7 @@ require.config({
     deps: ['jquery', 'Phaser', 'lodash', 'settings', 'domReady', 'debug', 'KeyMap', 'KeysManager', 'HeroInputs', 'Sounds',
         // heroes
         'Cow', 'Mouse', 'BaseHero',
-        'creeps',
+        'creeps', 'beans',
 
         // ui
         'UIManager'

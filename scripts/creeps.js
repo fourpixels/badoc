@@ -1,10 +1,11 @@
 define(function(require, exports, module) {
+    var Settings = require('settings');
+
     var CreepTypes = {
         RED: 1,
         BLUE: 2
     };
     var _ = require('lodash');
-    var MAX_CREEPS = 10;
 
     var Creeps = {};
     var timeSinceLastCreep = 0;
@@ -96,7 +97,7 @@ define(function(require, exports, module) {
         Creeps.group = game.add.group();
         Creeps.group.enableBody = true;
 
-        _.times(MAX_CREEPS, function() {
+        _.times(Settings.CREEP.maxCreeps, function() {
             Creeps.group.add(new Creep(game));
         });
 

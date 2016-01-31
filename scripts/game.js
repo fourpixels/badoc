@@ -4,6 +4,7 @@ define(function(require, exports, module) {
     var debug = require('debug')('jar:game');
     var Settings = require('settings');
     var Creeps = require('creeps');
+    var Beans = require('beans');
     var map = require('defaultMap')();
     var Sounds = require('Sounds');
     var seek = require('seek');
@@ -37,7 +38,8 @@ define(function(require, exports, module) {
         var fpsText, timeText, soulsText;
         var renderable;
         //var inputsText;
-        var noCollide;
+        var obsticles;
+        var creepsGroup;
 
         game.soulsCollected = 0;
 
@@ -45,7 +47,7 @@ define(function(require, exports, module) {
 
             Sounds.init(game);
 
-            noCollide = map.buildGroupsFor(game);
+            obsticles = map.buildGroupsFor(game);
             renderable = game.add.group();
 
             game.time.advancedTiming = true;
@@ -99,18 +101,16 @@ define(function(require, exports, module) {
             game.cow = cow;
             game.mouse = mouse;
 
-            var creepsGroup = Creeps.init(game);
+            creepsGroup = Creeps.init(game);
+            var beansGroup = Beans.init(game);
+
             renderable.add(cow.sprite);
             renderable.add(mouse.sprite);
             //renderable.add(creepsGroup);
 
-            noCollide.add(cow.sprite);
-            noCollide.add(mouse.sprite);
-
             totem = new Totem(game);
 
             renderable.add(totem.sprite);
-            noCollide.add(totem.sprite);
 
             //var cow2 = game.add.sprite(Settings.COW.startX, Settings.COW.startY, 'hero-test');
             //cow2.animations.add('swim', Phaser.Animation.generateFrameNames('Cow Standing instance', 0, 32, '', 4), 30, true);
@@ -133,9 +133,6 @@ define(function(require, exports, module) {
                 fill: '#ea1'
             });
 
-            jellyBeans = game.add.group();
-            jellyBeans.enableBody = true;
-
             ui = new UIManager(game);
 
             seek(map, [cow.sprite, mouse.sprite, totem.sprite], creepsGroup);
@@ -148,7 +145,8 @@ define(function(require, exports, module) {
             game.load.spritesheet('hero-cow', 'assets/cow.png', Settings.COW.width, Settings.COW.height);
             game.load.spritesheet('hero-mouse', 'assets/mouse.png', Settings.MOUSE.width, Settings.MOUSE.height);
             game.load.spritesheet('creep', 'assets/creep.png', Settings.CREEP.width, Settings.CREEP.height);
-            game.load.image('jellyBean', 'assets/dummy_jellyBean.png');
+
+            game.load.spritesheet('bean', 'assets/bean.png', Settings.BEAN.width, Settings.BEAN.height);
 
             game.load.spritesheet('totem', 'assets/totem.png', Settings.TOTEM.width, Settings.TOTEM.height);
             game.load.spritesheet('totem-fill', 'assets/totem_fill.png', 66, 80);
@@ -184,20 +182,29 @@ define(function(require, exports, module) {
                     Sounds.creepDie.play();
                     creep.die(function(coordinates) {
                         game.soulsCollected++;
-                        jellyBeans.create(coordinates.x, coordinates.y, 'jellyBean');
+                        Beans.dropBean(coordinates.x, coordinates.y);
                     });
                 }
             });
 
-            game.physics.arcade.overlap(mouse.sprite, jellyBeans, collectJellyBean, null, this);
+            game.physics.arcade.overlap(mouse.sprite, Beans.group, collectBean, null, this);
 
             game.physics.arcade.overlap(totem.sprite, Creeps.group, totemTakeDamage, null, this);
 
-            this.game.physics.arcade.collide(noCollide);
+            game.physics.arcade.collide(cow.sprite, obsticles);
+            game.physics.arcade.collide(cow.sprite, totem.sprite);
+            game.physics.arcade.collide(mouse.sprite, obsticles);
+            game.physics.arcade.collide(mouse.sprite, totem.sprite);
+            game.physics.arcade.collide(mouse.sprite, cow.sprite);
+
+            game.physics.arcade.collide(creepsGroup, obsticles);
 
             // collision debugging
             //Creeps.group.forEachAlive(function(creep) {
             //    game.debug.body(creep);
+            //});
+            //Beans.group.forEachAlive(function(bean) {
+            //    game.debug.body(bean);
             //});
             //game.debug.body(mouse.sprite);
             //game.debug.body(cow.sprite);
@@ -211,8 +218,8 @@ define(function(require, exports, module) {
             renderable.sort('y', Phaser.Group.SORT_ASCENDING);
         }
 
-        function collectJellyBean(mouseSprite, jellyBean) {
-            jellyBean.kill();
+        function collectBean(mouseSprite, bean) {
+            bean.collect();
             mouse.increaseStamina(20);
         };
 

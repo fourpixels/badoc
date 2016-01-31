@@ -27,6 +27,7 @@
         CREEP: {
             width: 126,
             height: 151,
+            maxCreeps: 50
         },
         TOTEM: {
             width: 134,
@@ -63,7 +64,9 @@
         BEAN: {
             width: 28,
             height: 91,
-            frames: 11
+            frames: 11,
+            maxBeans: 100,
+            beanTimeout: 12000 // disappear after this much time
         },
         POUF: {
             width: 51,

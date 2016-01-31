@@ -33,7 +33,6 @@ define(function(require, exports, module) {
             var teleportAnim = this.sprite.animations.add('teleport', [29,30,31,32,33,34,35], 12, false);
 
             function castingEnded() {
-                console.log('casting stop!');
                 _this.casting = false;
                 _this.stop();
                 if (!_this.moving) {

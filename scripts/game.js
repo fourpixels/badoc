@@ -40,7 +40,6 @@ define(function(require, exports, module) {
         var noCollide;
 
         game.soulsCollected = 0;
-        game.timeSurvived = 0; // seconds
 
         function create() {
 
@@ -151,7 +150,6 @@ define(function(require, exports, module) {
 
         function update() {
             var timeSinceLastUpdate = game.time.elapsed;
-            game.timeSurvived += timeSinceLastUpdate;
 
             Creeps.update(timeSinceLastUpdate);
 
@@ -191,7 +189,7 @@ define(function(require, exports, module) {
             //inputsText.text = 'inputs: ' + _.keys(KeysManager.getPressedKeys());
 
             fpsText.text = 'FPS: ' + game.time.fps;
-            timeText.text = Math.round(game.timeSurvived / 1000);
+            timeText.text = Math.floor(game.time.totalElapsedSeconds());
             soulsText.text = 'Souls: ' + game.soulsCollected;
 
             renderable.sort('y', Phaser.Group.SORT_ASCENDING);

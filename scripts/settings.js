@@ -26,7 +26,7 @@
     return {
         CREEP: {
             width: 126,
-            height: 150,
+            height: 151,
         },
         TOTEM: {
             width: 134,
@@ -36,8 +36,8 @@
             maxHits: 10
         },
         COW: {
-            width: 189,
-            height: 195,
+            width: 208,
+            height: 203,
             startX: (globals.windowWidth / 2 - 134 / 2) - 189, // totem startX - cow width
             startY: (globals.windowHeight - 326), // totem startY
             velocity: 150,
@@ -49,8 +49,8 @@
             actionBThrottle: 1000
         },
         MOUSE: {
-            width: 66,
-            height: 87,
+            width: 78,
+            height: 123,
             startX: (globals.windowWidth / 2 + 134 / 2),// totem endX
             startY: (globals.windowHeight - 326), // totem startY
             maxStamina: 100,
@@ -59,6 +59,16 @@
             actionBStamina: 90,
             actionAThrottle: 1000,
             actionBThrottle: 5000
+        },
+        BEAN: {
+            width: 28,
+            height: 91,
+            frames: 11
+        },
+        POUF: {
+            width: 51,
+            height: 170,
+            frames: 10 //all
         }
     };
 });

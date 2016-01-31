@@ -19,6 +19,7 @@ define(function(require, exports, module) {
             bean.revive();
             bean.reset(x, y);
             bean.alive = true;
+            bean.alpha = 1;
             Sounds.beanSpawned.play();
             bean.animations.play('drop').onComplete.add(function(){
                 if (bean.alive) {

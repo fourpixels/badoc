@@ -19,6 +19,7 @@ require.config({
         'seek'              : 'seek',
         'map'               : 'map',
         'defaultMap'        : 'defaultMap',
+        'gameOver'        : 'gameOver',
 
         'debug'             : 'libs/debug',
         'KeysManager'       : 'inputs/KeysManager',

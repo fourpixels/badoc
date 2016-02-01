@@ -22,6 +22,11 @@ Drawings and graphics by:
 
  * [Ivan Berov](http://www.behance.net/Berov)
 
+Music:
+
+ * "Tafi Maradi no voice" Kevin MacLeod (incompetech.com)
+   Licensed under Creative Commons: By Attribution 3.0
+
 <hr />
 
 More info: [Voodoo Jar at Global Game Jam](http://globalgamejam.org/2016/games/voodoo-jar)
